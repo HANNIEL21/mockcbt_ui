@@ -18,7 +18,8 @@ const Auth = () => {
         console.log(user);
     }, [dispatch])
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
         try {
     
             const response = await axios.post(`${baseApiUrl}/login.php`, { username });

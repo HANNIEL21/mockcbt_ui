@@ -24,6 +24,13 @@ const Details = () => {
 
 
   const handleStartExam = async () => {
+
+
+    if (!userDetails.token) {
+      Alert("warning", "No Access Token");
+      setIsOpenModal(true);
+      return;
+    }
     try {
       const res = await axios.get(`${baseApiUrl}/exam.php`);
 
@@ -34,10 +41,6 @@ const Details = () => {
         const today = new Date();
         const expire = new Date(examDetails?.end);
 
-        if (userDetails.token === "" || null) {
-          Alert("warning", "No Access Token");
-          return;
-        }
 
         if (expire.toDateString() === today.toDateString()) {
           Alert("info", "Exam Ended");
@@ -92,6 +95,8 @@ const Details = () => {
     }
   };
 
+
+
   const handleViewResult = async () => {
     navigate("/result");
   }
@@ -103,9 +108,9 @@ const Details = () => {
   }
 
   const handleOpenModal = () => {
+    if(!!userDetails.token) return
     setIsOpenModal(!isOpenModal);
   }
-
   return (
     <main className='h-screen w-screen bg-gray-200 flex flex-col'>
       <section className=' w-full h-24 flex justify-between items-center px-10'>
@@ -116,6 +121,7 @@ const Details = () => {
         <div className='flex gap-4 items-center'>
           <>
             <button
+            disabled={!!userDetails.token}
               onClick={handleOpenModal}
               className={`border-2 ${userDetails?.token ? " border-green-800 hover:bg-green-300 text-green-800" : " border-red-800 hover:bg-red-300 text-red-800"} font-bold text-sm rounded-md capitalize py-1 px-2 focus:outline-none flex items-center flex-row-reverse gap-2`}
             >
@@ -148,13 +154,13 @@ const Details = () => {
                     className='w-[65%] h-[65%] rounded-md shadow-md' />
                 </>
               ) : (
-                <div className='bg-white shadow-md rounded-xl h-52 w-52 flex items-center justify-center'>
-                  <IoPerson className='text-blue-800 text-6xl' />
+                <div className='bg-white shadow-md rounded-xl p-2 flex items-center justify-center'>
+                  <IoPerson  className='text-blue-800 text-3xl' />
                 </div>
               )
             }
           </div>
-          <button onClick={handleLogout} className='flex gap-1 items-center text-red-500 font-bold rounded-md uppercase'>logout <IoLogOut /></button>
+          <button onClick={handleLogout} className='flex gap-1 items-center text-red-500 font-bold rounded-md uppercase  hover:underline'>logout <IoLogOut /></button>
         </div>
       </section>
       <section className='flex w-full h-full justify-around items-center'>

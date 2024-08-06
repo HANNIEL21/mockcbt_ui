@@ -1,9 +1,8 @@
 // URLS
-export const baseApiUrl = "https://mockcbt.rsu.edu.ng/api"; 
-// export const baseApiUrl = "http://localhost/mock/api"; 
+export const baseApiUrl = "https://mockcbt.rsu.edu.ng/api";
 
 // Stings
-export const appName = 'mock engine';
+export const appName = "mock engine";
 
 // IMAGES
-export const appLogo = ''
+export const appLogo = "";
