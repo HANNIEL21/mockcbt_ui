@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import UserDetail from '../../components/UserDetail';
-import Timmer from '../../components/Timmer';
-import Alert from '../../components/Alert';
-import { baseApiUrl } from '../../utils/constants';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import UserDetail from "../../components/UserDetail";
+import Timmer from "../../components/Timmer";
+import Alert from "../../components/Alert";
+import { baseApiUrl } from "../../utils/constants";
 
 const Examiner = () => {
   const navigate = useNavigate();
@@ -32,10 +32,12 @@ const Examiner = () => {
   }, {});
 
   // Convert the grouped object to an array
-  let groupedQuestionsArray = Object.entries(groupedQuestions).map(([course, questions]) => ({
-    course,
-    questions,
-  }));
+  let groupedQuestionsArray = Object.entries(groupedQuestions).map(
+    ([course, questions]) => ({
+      course,
+      questions,
+    })
+  );
 
   // Function to shuffle the array
   const shuffleArray = (array) => {
@@ -54,23 +56,35 @@ const Examiner = () => {
   console.log(groupedQuestionsArray);
 
   const handleSelect = (qid, c, v) => {
-    const existingAnswerIndex = answers.findIndex((answer) => answer.qid === qid);
+    const existingAnswerIndex = answers.findIndex(
+      (answer) => answer.qid === qid
+    );
 
     if (existingAnswerIndex !== -1) {
       const updatedAnswers = [...answers];
       updatedAnswers[existingAnswerIndex].value = v;
       setAnswers(updatedAnswers);
 
-      const correctAnswer = questions.find((question) => question.id === qid).answer;
-      if (updatedAnswers[existingAnswerIndex].value !== correctAnswer && v === correctAnswer) {
+      const correctAnswer = questions.find(
+        (question) => question.id === qid
+      ).answer;
+      if (
+        updatedAnswers[existingAnswerIndex].value !== correctAnswer &&
+        v === correctAnswer
+      ) {
         setScore((prevScore) => prevScore + 1);
-      } else if (updatedAnswers[existingAnswerIndex].value === correctAnswer && v !== correctAnswer) {
+      } else if (
+        updatedAnswers[existingAnswerIndex].value === correctAnswer &&
+        v !== correctAnswer
+      ) {
         setScore((prevScore) => prevScore - 1);
       }
     } else {
       setAnswers([...answers, { qid, course: c, value: v }]);
 
-      const correctAnswer = questions.find((question) => question.id === qid).answer;
+      const correctAnswer = questions.find(
+        (question) => question.id === qid
+      ).answer;
       if (v === correctAnswer) {
         setScore((prevScore) => prevScore + 1);
       }
@@ -90,7 +104,8 @@ const Examiner = () => {
     // Iterate over each question and check if the answer is correct
     questions.forEach((question) => {
       const answer = answers.find((a) => a.qid === question.id);
-      if (answer && answer.value === question.answer) { // Assuming 'answer' is the correct property in the question object
+      if (answer && answer.value === question.answer) {
+        // Assuming 'answer' is the correct property in the question object
         totalCorrectAnswers++;
         const course = question.course;
         if (!correctAnswersByCourse[course]) {
@@ -112,10 +127,22 @@ const Examiner = () => {
       examno: userDetails?.examno,
       course: userDetails?.course,
       attempted: answers.length,
-      s1: userDetails?.s1.toString().toUpperCase() in correctAnswersByCourse ? correctAnswersByCourse[userDetails?.s1.toString().toUpperCase()] : 0,
-      s2: userDetails?.s2.toString().toUpperCase() in correctAnswersByCourse ? correctAnswersByCourse[userDetails?.s2.toString().toUpperCase()] : 0,
-      s3: userDetails?.s3.toString().toUpperCase() in correctAnswersByCourse ? correctAnswersByCourse[userDetails?.s3.toString().toUpperCase()] : 0,
-      s4: userDetails?.s4.toString().toUpperCase() in correctAnswersByCourse ? correctAnswersByCourse[userDetails?.s4.toString().toUpperCase()] : 0,
+      s1:
+        userDetails?.s1.toString().toUpperCase() in correctAnswersByCourse
+          ? correctAnswersByCourse[userDetails?.s1.toString().toUpperCase()]
+          : 0,
+      s2:
+        userDetails?.s2.toString().toUpperCase() in correctAnswersByCourse
+          ? correctAnswersByCourse[userDetails?.s2.toString().toUpperCase()]
+          : 0,
+      s3:
+        userDetails?.s3.toString().toUpperCase() in correctAnswersByCourse
+          ? correctAnswersByCourse[userDetails?.s3.toString().toUpperCase()]
+          : 0,
+      s4:
+        userDetails?.s4.toString().toUpperCase() in correctAnswersByCourse
+          ? correctAnswersByCourse[userDetails?.s4.toString().toUpperCase()]
+          : 0,
     };
 
     console.log(result);
@@ -125,7 +152,7 @@ const Examiner = () => {
       console.log(res);
       if (res.data.status === "success") {
         Alert(res.data.status, res.data.message);
-        navigate('/result');
+        navigate("/result");
       }
       Alert(res.data.status, res.data.message);
       console.log(res.data.message);
@@ -136,11 +163,13 @@ const Examiner = () => {
   };
 
   const goToNextQuestion = () => {
-    setCurrentQuestionIndex(prevIndex => Math.min(prevIndex + 1, questions.length - 1));
+    setCurrentQuestionIndex((prevIndex) =>
+      Math.min(prevIndex + 1, questions.length - 1)
+    );
   };
 
   const goToPrevQuestion = () => {
-    setCurrentQuestionIndex(prevIndex => Math.max(prevIndex - 1, 0));
+    setCurrentQuestionIndex((prevIndex) => Math.max(prevIndex - 1, 0));
   };
 
   const handleNumberClick = (index) => {
@@ -148,7 +177,9 @@ const Examiner = () => {
   };
 
   const handleCourseClick = (course) => {
-    const courseQuestions = questions.sort(question => question.course === course);
+    const courseQuestions = questions.sort(
+      (question) => question.course === course
+    );
     const firstQuestionIndex = questions.indexOf(courseQuestions[0]);
     setCurrentQuestionIndex(firstQuestionIndex);
     setSelectedCourse(course);
@@ -164,22 +195,62 @@ const Examiner = () => {
 
   console.log(answers);
 
+  useEffect(() => {
+    function preventContextEvent(e) {
+      e.preventDefault();
+      Alert("warning", "You don't want to do this bruh");
+    }
+
+    function preventKeyDown(e) {
+      if (
+        e.ctrlKey &&
+        (e.key === "Shift" || e.key === "Control" || e.key === "F12")
+      ) {
+        e.preventDefault();
+        Alert("warning", "You don't want to do this bruh");
+      }
+    }
+
+    function preventMouseDown(e) {
+      if (e.button === 2) {
+        e.preventDefault();
+        Alert("warning", "You don't want to do this bruh");
+      }
+    }
+
+    document.addEventListener("contextmenu", preventContextEvent);
+    document.addEventListener("keydown", preventKeyDown);
+    document.addEventListener("mousedown", preventMouseDown);
+
+    return () => {
+      document.removeEventListener("contextmenu", preventContextEvent);
+      document.removeEventListener("keydown", preventKeyDown);
+      document.removeEventListener("mousedown", preventMouseDown);
+    };
+  }, []);
+
   return (
-    <div className='w-full h-screen flex'>
-      <section className='w-[45%] h-full bg-slate-50 shadow-md flex flex-col gap-10 justify-center items-center'>
+    <div className="w-full h-screen flex">
+      <section className="w-[45%] h-full bg-slate-50 shadow-md flex flex-col gap-10 justify-center items-center">
         <Timmer duration={duration} onTimeout={handleTimeout} />
         <UserDetail />
       </section>
 
-      <section className='w-full h-full p-10 px-20 flex flex-col gap-8'>
-
-        <div key={currentQuestion.id} className='flex flex-col justify-between gap-16'>
+      <section className="w-full h-full p-10 px-20 flex flex-col gap-8">
+        <div
+          key={currentQuestion.id}
+          className="flex flex-col justify-between gap-16"
+        >
           <div>
-            <p className='font-extrabold text-slate-600'>{currentQuestion.course}</p>
-            <h2 className='text-5xl font-bold text-blue-900'>Question {currentQuestionIndex + 1}</h2>
+            <p className="font-extrabold text-slate-600">
+              {currentQuestion.course}
+            </p>
+            <h2 className="text-5xl font-bold text-blue-900">
+              Question {currentQuestionIndex + 1}
+            </h2>
           </div>
-          <div className='h-full w-full'>
-            <form className='h-4/4 flex flex-col gap-10'>
+          <div className="h-full w-full">
+            <form className="h-4/4 flex flex-col gap-10">
               <h3>{currentQuestion.question}</h3>
               <div>
                 {options.map((option, index) => (
@@ -189,8 +260,18 @@ const Examiner = () => {
                       id={`option-${index}`}
                       name={`option-${currentQuestion.id}`}
                       value={option}
-                      checked={answers.some(answer => answer.qid === currentQuestion.id && answer.value === option)}
-                      onChange={() => handleSelect(currentQuestion.id, currentQuestion.course, option)}
+                      checked={answers.some(
+                        (answer) =>
+                          answer.qid === currentQuestion.id &&
+                          answer.value === option
+                      )}
+                      onChange={() =>
+                        handleSelect(
+                          currentQuestion.id,
+                          currentQuestion.course,
+                          option
+                        )
+                      }
                       className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out"
                     />
                     <label
@@ -222,24 +303,32 @@ const Examiner = () => {
         </div>
       </section>
 
-      <section className='w-[45%] h-full bg-slate-50 shadow-md'>
-        <div className='h-full flex gap-5 flex-col justify-center items-center p-5'>
-          <div className='w-full grid grid-cols-2 gap-2 place-content-center justify-items-center'>
+      <section className="w-[45%] h-full bg-slate-50 shadow-md">
+        <div className="h-full flex gap-5 flex-col justify-center items-center p-5">
+          <div className="w-full grid grid-cols-2 gap-2 place-content-center justify-items-center">
             {groupedQuestionsArray.map((item, index) => (
               <div
                 key={index} // Use index as the key
-                className={`w-full cursor-pointer uppercase font-bold rounded-md text-sm py-2 text-center border-2 border-slate-300 ${item.course === currentQuestion.course ? 'bg-blue-900 text-white' : 'bg-white text-blue-900'}`}
+                className={`w-full cursor-pointer uppercase font-bold rounded-md text-sm py-2 text-center border-2 border-slate-300 ${
+                  item.course === currentQuestion.course
+                    ? "bg-blue-900 text-white"
+                    : "bg-white text-blue-900"
+                }`}
                 onClick={() => {
-                  console.log('Clicked course:', item.course);
-                  const courseQuestions = questions.filter(question => question.course === item.course);
-                  console.log('Course questions:', courseQuestions);
+                  console.log("Clicked course:", item.course);
+                  const courseQuestions = questions.filter(
+                    (question) => question.course === item.course
+                  );
+                  console.log("Course questions:", courseQuestions);
                   if (courseQuestions.length > 0) {
-                    const firstQuestionIndex = questions.indexOf(courseQuestions[0]);
+                    const firstQuestionIndex = questions.indexOf(
+                      courseQuestions[0]
+                    );
                     setCurrentQuestionIndex(firstQuestionIndex);
                     setSelectedCourse(item.course);
                     console.log(selectedCourse);
                   } else {
-                    console.log('No questions found for course:', item.course);
+                    console.log("No questions found for course:", item.course);
                   }
                 }}
               >
@@ -249,21 +338,34 @@ const Examiner = () => {
           </div>
           <div className="h-[40%] overflow-y-auto overflow-scroll overflow-x-hidden grid grid-cols-5 gap-2 p-3 place-content-start">
             {questions.map((question, index) => (
-              <div key={index}
-                className={`border-2 border-blue-900 text-blue-900 font-bold text-lg flex justify-center items-center w-8 h-8 rounded-md cursor-pointer ${answers.find(answer => answer.qid === question.id) ? 'border-none bg-blue-900 text-white' : 'bg-gray-300'} `}
+              <div
+                key={index}
+                className={`border-2 border-blue-900 text-blue-900 font-bold text-lg flex justify-center items-center w-8 h-8 rounded-md cursor-pointer ${
+                  answers.find((answer) => answer.qid === question.id)
+                    ? "border-none bg-blue-900 text-white"
+                    : "bg-gray-300"
+                } `}
                 onClick={() => handleNumberClick(index)}
               >
-                <h2 className='p-5 font-extrabold'>{index + 1}</h2>
+                <h2 className="p-5 font-extrabold">{index + 1}</h2>
               </div>
             ))}
           </div>
-          <h2 className='my-5 font-bold text-2xl'>{answers.length} of {questions.length}</h2>
+          <h2 className="my-5 font-bold text-2xl">
+            {answers.length} of {questions.length}
+          </h2>
           {currentQuestionIndex + 1 === questions.length ? (
-            <button className='border-2 border-green-900 hover:bg-green-900 font-bold text-green-900 text-lg rounded-lg hover:text-white uppercase px-20 py-4' onClick={handleSubmit}>Submit</button>
-          ) : (<></>)}
+            <button
+              className="border-2 border-green-900 hover:bg-green-900 font-bold text-green-900 text-lg rounded-lg hover:text-white uppercase px-20 py-4"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
       </section>
-
     </div>
   );
 };
