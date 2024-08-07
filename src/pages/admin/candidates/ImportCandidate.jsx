@@ -24,11 +24,11 @@ const ImportCandidate = ({ closeImportCandidateModal }) => {
             try {
                 // Use Promise.all() to perform all axios POST requests concurrently
                 const promises = json.map(async (question) => {
-                    const res = await axios.post(`${baseApiUrl}/question.php`, question);
+                    const res = await axios.post(`${baseApiUrl}/candidate.php`, question);
                     console.log(res);
                 });
                 await Promise.all(promises);
-                Alert("success", `All ${json.length} questions imported successfully`);
+                Alert("success", `All ${json.length} candidates imported successfully`);
                 closeImportCandidateModal();
             } catch (error) {
                 console.log("Error importing candidates:", error);

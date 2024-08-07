@@ -9,7 +9,7 @@ const DeleteQuestion = ({ closeDeleteQuestionModal, qId }) => {
         try {
             console.log(id);      
             // Send a DELETE request to your backend endpoint with the user ID
-            const response = await axios.delete(`${baseApiUrl}/question.php?id=${id}`);
+            const response = await axios.delete(`${baseApiUrl}/token.php?id=${id}`);
             if (response.status === 200) {
                 // User deleted successfully
                 console.log(response.data);

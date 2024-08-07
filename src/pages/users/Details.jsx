@@ -109,6 +109,7 @@ const Details = () => {
     if (!!userDetails.token) return;
     setIsOpenModal(!isOpenModal);
   };
+
   return (
     <main className="h-screen w-screen bg-gray-200 flex flex-col">
       <section className=" w-full h-24 flex justify-between items-center px-10">
@@ -132,7 +133,7 @@ const Details = () => {
               } font-bold text-sm rounded-md capitalize py-1 px-2 focus:outline-none flex items-center flex-row-reverse gap-2`}
             >
               <IoKey className="text-2xl" />
-              {userDetails?.token === ""
+              {userDetails?.token === null || ""
                 ? "Click to add token"
                 : userDetails?.token}
             </button>

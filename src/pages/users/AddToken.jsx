@@ -9,7 +9,7 @@ import { setUserDetails } from "../../redux/Features/User";
 
 const AddToken = ({ closeModal, user }) => {
 
-    const [token, setToken] = useState(new Array(6).fill(''))
+    const [token, setToken] = useState(new Array(8).fill(''))
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -24,11 +24,10 @@ const AddToken = ({ closeModal, user }) => {
         user: user,
         status: 'USED',
     });
+
     console.log(formData, "formdata");
 
     const handleChange = (element, index) => {
-        if (isNaN(element.value)) return;
-
         setToken([...token.map((d, idx) => (idx === index ? element.value : d))]);
 
         // Focus next input
@@ -94,7 +93,7 @@ const AddToken = ({ closeModal, user }) => {
                                         autoFocus={index === 0}
                                         key={index}
                                         type="text"
-                                        className="border-2 w-12 text-center h-12 border-[#8F1E63] text-[#8F1E63] p-2 rounded-lg focus:outline-none"
+                                        className="border-2 w-10 text-center h-10 border-[#8F1E63] text-[#8F1E63] p-2 rounded-lg focus:outline-none"
                                         maxLength="1"
                                         value={data}
                                         onChange={e => handleChange(e.target, index)}

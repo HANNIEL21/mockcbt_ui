@@ -193,7 +193,7 @@ const Token = () => {
             showFilter={true}
             label={columns}
             data={tokens}
-            del={"question"}
+            del={"token"}
             isLoading={isLoading}
             filter={"token"}
             children={
