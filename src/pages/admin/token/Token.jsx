@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Table from "../../../components/Table";
 import { MdDelete, MdEdit, MdAdd, MdImportExport } from "react-icons/md";
-import EditQuestion from "./EditToken";
+import EditToken from "./EditToken";
 import DeleteQuestion from "./DeleteToken";
 
 import {
@@ -16,7 +16,8 @@ import { baseApiUrl } from "../../../utils/constants";
 import ImportToken from "./ImportToken";
 import AddToken from "./AddToken";
 import GenerateTokens from "./GenerateTokens";
-
+import DeleteToken from "./DeleteToken";
+import ModalOverlay from "../../../components/ModalOverlay";
 
 const Token = () => {
   const dispatch = useDispatch();
@@ -38,13 +39,13 @@ const Token = () => {
       try {
         const response = await axios.get(`${baseApiUrl}/token.php`);
         if (response.status !== 200) {
-          console.error("Failed to retrieve users:", response.statusText);
+          console.error("Failed to retrieve tokens:", response.statusText);
         } else {
           dispatch(setTokens(response.data));
         }
       } catch (error) {
         console.error(
-          "An error occurred while retrieving users:",
+          "An error occurred while retrieving tokens:",
           error.message
         );
       } finally {
@@ -149,35 +150,12 @@ const Token = () => {
             </button>
 
             {isOpenEditModal && (
-              <div
-                className="fixed z-10 inset-0 overflow-y-auto"
-                aria-labelledby="modal-title"
-                role="dialog"
-                aria-modal="true"
-              >
-                <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                  <div
-                    className="fixed inset-0 transition-opacity"
-                    aria-hidden="true"
-                  >
-                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                  </div>
-
-                  <span
-                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                    aria-hidden="true"
-                  >
-                    &#8203;
-                  </span>
-
-                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <EditQuestion
-                      closeEditModal={() => closeModal("edit")}
-                      qId={selectedId}
-                    />
-                  </div>
-                </div>
-              </div>
+              <ModalOverlay>
+                <EditToken
+                  closeEditTokenModal={() => closeModal("edit")}
+                  id={selectedId}
+                />
+              </ModalOverlay>
             )}
           </>
           <>
@@ -189,35 +167,12 @@ const Token = () => {
             </button>
 
             {isOpenDeleteModal && (
-              <div
-                className="fixed z-10 inset-0 overflow-y-auto"
-                aria-labelledby="modal-title"
-                role="dialog"
-                aria-modal="true"
-              >
-                <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                  <div
-                    className="fixed inset-0 transition-opacity"
-                    aria-hidden="true"
-                  >
-                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                  </div>
-
-                  <span
-                    className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                    aria-hidden="true"
-                  >
-                    &#8203;
-                  </span>
-
-                  <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                    <DeleteQuestion
-                      closeDeleteModal={() => closeModal("delete")}
-                      qId={selectedId}
-                    />
-                  </div>
-                </div>
-              </div>
+              <ModalOverlay>
+                <DeleteToken
+                  closeDeleteTokenModal={() => closeModal("delete")}
+                  id={selectedId}
+                />
+              </ModalOverlay>
             )}
           </>
         </div>
@@ -252,30 +207,9 @@ const Token = () => {
                   </button>
 
                   {isOpenAddModal && (
-                    <div
-                      className="fixed z-10 inset-0 overflow-y-auto"
-                      aria-labelledby="modal-title"
-                      role="dialog"
-                      aria-modal="true"
-                    >
-                      <div className="flex justify-center items-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <div
-                          className="fixed inset-0 transition-opacity"
-                          aria-hidden="true"
-                        >
-                          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div>
-                        <span
-                          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                          aria-hidden="true"
-                        >
-                          &#8203;
-                        </span>
-                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                          <AddToken closeAddModal={() => closeModal("add")} />
-                        </div>
-                      </div>
-                    </div>
+                    <ModalOverlay>
+                      <AddToken closeAddModal={() => closeModal("add")} />
+                    </ModalOverlay>
                   )}
                 </>
 
@@ -288,32 +222,11 @@ const Token = () => {
                   </button>
 
                   {isOpenGenerateModal && (
-                    <div
-                      className="fixed z-10 inset-0 overflow-y-auto"
-                      aria-labelledby="modal-title"
-                      role="dialog"
-                      aria-modal="true"
-                    >
-                      <div className="flex justify-center items-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <div
-                          className="fixed inset-0 transition-opacity"
-                          aria-hidden="true"
-                        >
-                          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div>
-                        <span
-                          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                          aria-hidden="true"
-                        >
-                          &#8203;
-                        </span>
-                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                          <GenerateTokens
-                            closeGenerateModal={() => closeModal("generate")}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <ModalOverlay>
+                      <GenerateTokens
+                        closeGenerateModal={() => closeModal("generate")}
+                      />
+                    </ModalOverlay>
                   )}
                 </>
 
@@ -326,34 +239,11 @@ const Token = () => {
                   </button>
 
                   {isOpenImportModal && (
-                    <div
-                      className="fixed z-10 inset-0 overflow-y-auto"
-                      aria-labelledby="modal-title"
-                      role="dialog"
-                      aria-modal="true"
-                    >
-                      <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                        <div
-                          className="fixed inset-0 transition-opacity"
-                          aria-hidden="true"
-                        >
-                          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                        </div>
-
-                        <span
-                          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                          aria-hidden="true"
-                        >
-                          &#8203;
-                        </span>
-
-                        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                          <ImportToken
-                            closeImportModal={() => closeModal("import")}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <ModalOverlay>
+                      <ImportToken
+                        closeImportModal={() => closeModal("import")}
+                      />
+                    </ModalOverlay>
                   )}
                 </>
               </div>
