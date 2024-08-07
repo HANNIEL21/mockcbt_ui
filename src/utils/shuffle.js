@@ -1,4 +1,4 @@
-export default function (array) {
+export default function ahuffle(array) {
     let shuffledArray = array.slice(); // Create a copy of the array to avoid mutating the original
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
