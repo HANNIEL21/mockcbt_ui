@@ -33,7 +33,7 @@ const Sidebar = () => {
         dispatch(setSelected(link));
     }
 
-    const adminLinks = [
+    const sa = [
         { id: 1, text: 'Dashboard', to: '/dashboard', icon: <BsGrid />, activeIcon: <BsFillGridFill className="text-xl" /> },
         { id: 2, text: 'Exams', to: '/dashboard/exams', icon: <BsFileText />, activeIcon: <BsFileTextFill className="text-xl" /> },
         { id: 3, text: 'Candidates', to: '/dashboard/candidates', icon: <HiOutlineUserGroup />, activeIcon: <HiUserGroup className="text-xl" /> },
@@ -44,11 +44,12 @@ const Sidebar = () => {
         { id: 8, text: 'Settings', to: '/dashboard/settings', icon: <RiSettings5Line />, activeIcon: <RiSettings5Fill className="text-xl" /> },
     ];
 
-    const links = [
+    const admin = [
         { id: 1, text: 'Dashboard', to: '/dashboard', icon: <BsGrid />, activeIcon: <BsFillGridFill className="text-xl" /> },
         { id: 2, text: 'Exams', to: '/dashboard/exams', icon: <BsFileText />, activeIcon: <BsFileTextFill className="text-xl" /> },
         { id: 3, text: 'Questions', to: '/dashboard/exam-bank', icon: <BsBriefcase />, activeIcon: <BsBriefcaseFill className="text-xl" /> },
         { id: 4, text: 'Candidates', to: '/dashboard/candidates', icon: <HiOutlineUserGroup />, activeIcon: <HiUserGroup className="text-xl" /> },
+        { id: 6, text: 'Results', to: '/dashboard/results', icon: <BsFileEarmarkText />, activeIcon: <BsFileEarmarkTextFill className="text-xl" /> },
     ];
 
     return (
@@ -61,8 +62,8 @@ const Sidebar = () => {
             </nav>
             <nav className="w-full h-full flex items-center justify-center overflow-hidden">
                 <ul className="flex h-[450px] flex-col justify-center gap-1 overflow-x-hidden px-2 overflow-y-auto">
-                    {userDetails.role === "ADMIN" ? (
-                        adminLinks.map((link) => (
+                    {userDetails.role === "SA" ? (
+                        sa.map((link) => (
                             <li key={link.id}>
                                 <Link
                                     onClick={() => handleLinkClick(link.to)}
@@ -75,8 +76,8 @@ const Sidebar = () => {
                                 </Link>
                             </li>
                         ))
-                    ) : userDetails.role === "EXAMINER" ? (
-                        links.map((link) => (
+                    ) : userDetails.role === "ADMIN" ? (
+                        admin.map((link) => (
                             <li key={link.id}>
                                 <Link
                                     onClick={() => handleLinkClick(link.to)}

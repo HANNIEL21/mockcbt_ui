@@ -139,9 +139,8 @@ const EditUser = ({ userId, closeEditUserModal }) => {
                                     onChange={handleChange}
                                 >
                                     <option value="">User Role</option>
+                                    <option value="SA">SA</option>
                                     <option value="ADMIN">ADMIN</option>
-                                    <option value="EXAMINER">EXAMINER</option>
-                                    <option value="USER">USER</option>
                                 </select>
                             </div>
                         </form>

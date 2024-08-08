@@ -32,7 +32,7 @@ const Auth = () => {
       dispatch(setUserDetails(response.data));
 
       const userRole = response.data.role;
-      if (userRole === "ADMIN" || userRole === "EXAMINER") {
+      if (userRole === "ADMIN" || userRole === "SA") {
         navigate("/password");
       } else if (userRole === "USER") {
         dispatch(setIsAuthenticatedTrue());

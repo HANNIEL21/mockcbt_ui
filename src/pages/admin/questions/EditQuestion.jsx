@@ -94,6 +94,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                         <h3 className="text-lg mt-2 leading-6 font-medium text-gray-900" id="modal-title">Edit Question</h3>
                         <form className="grid grid-cols-2 sm:grid-cols-2 gap-4 mt-3">
                             <div className="w-full">
+                                <label htmlFor="question" className="uppercase font-bold text-blue-900">question</label>
                                 <textarea
                                     name="question"
                                     id="question"
@@ -104,6 +105,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                                <label htmlFor="answer" className="uppercase font-bold text-blue-900">answer</label>
                                 <textarea
                                     name="answer"
                                     id="answer"
@@ -114,6 +116,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                            <label htmlFor="opt1" className="uppercase font-bold text-blue-900">option 1</label>
                                 <textarea
                                     name="opt1"
                                     id="opt1"
@@ -124,6 +127,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                            <label htmlFor="otp2" className="uppercase font-bold text-blue-900">option 2</label>
                                 <textarea
                                     name="opt2"
                                     id="opt2"
@@ -134,6 +138,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                            <label htmlFor="opt3" className="uppercase font-bold text-blue-900">option 3</label>
                                 <textarea
                                     name="opt3"
                                     id="opt3"
@@ -144,6 +149,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                            <label htmlFor="opt4" className="uppercase font-bold text-blue-900">option 4</label>
                                 <textarea
                                     name="opt4"
                                     id="opt4"
@@ -154,6 +160,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 ></textarea>
                             </div>
                             <div className="w-full">
+                            <label htmlFor="mark" className="uppercase font-bold text-blue-900">mark</label>
                                 <input
                                     type="text"
                                     name="mark"
@@ -165,7 +172,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label htmlFor="examtype" className="sr-only">Course </label>
+                            <label htmlFor="course" className="uppercase font-bold text-blue-900">subject</label>
                                 <select
                                     name="course"
                                     id="course"
@@ -182,43 +189,7 @@ const EditQuestion = ({ qId, closeEditQuestionModal }) => {
                                         >{item}</option>))}
                                 </select>
                             </div>
-
-                            <div className="w-full">
-                                <label htmlFor="category" className="sr-only">Exam Category</label>
-                                <select
-                                    name="category"
-                                    id="category"
-                                    className="shadow-sm focus:border-blue-500 block w-full text-gray-400 sm:text-sm p-2 border-gray-300 rounded-md"
-                                    onChange={handleChange}
-                                    value={formData.category}
-                                >
-                                    <option value="">Exam Category</option>
-                                    {categories.map((category, i) => (
-                                        <option
-                                            key={i}
-                                            value={category}
-                                            defaultValue={formData.category === category}
-                                        >{category}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="w-full">
-                                <label htmlFor="type" className="sr-only">Question Type</label>
-                                <select
-                                    name="type"
-                                    id="type"
-                                    className="shadow-sm focus:border-blue-500 block w-full text-gray-400 sm:text-sm p-2 border-gray-300 rounded-md"
-                                    onChange={handleChange}
-                                    value={formData.type}
-                                >
-                                    <option value="">Exam Type</option>
-                                    {types.map((type, index) => (
-                                        <option key={index} value={type} selected={formData.type === type}>{type}</option>
-                                    ))}
-                                </select>
-                            </div>
                         </form>
-
                     </div>
                 </div>
             </div>

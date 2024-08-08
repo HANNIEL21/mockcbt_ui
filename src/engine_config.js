@@ -3,8 +3,8 @@ export const gender = [
     "FEMALE",
 ]
 export const role = [
+    "SA",
     "ADMIN",
-    "EXAMINER",
     "USER",
 ]
 export const types = [
@@ -117,7 +117,7 @@ export const department = [
 export const subjects = [
     "MEDICAL-SURGICAL NURSING",
     "USE OF ENGLISH",
-    "MATHEMATICS",
+    "MATHEMATICS ",
     "PHYSICS",
     "CHEMISTRY",
     "BIOLOGY",
