@@ -128,7 +128,7 @@ const EditResult = ({ rId, closeEditResultModal }) => {
                                 >
                                     <option value="">Exam Type</option>
                                     <option value="Examiner">Examiner</option>
-                                    <option value="Questioniar">Questioniar</option>
+                                    <option value="Questioniar">Questioniare</option>
                                 </select>
                             </div>
                             <div className="w-full">

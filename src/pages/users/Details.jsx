@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { IoPerson } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +17,10 @@ const Details = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
 
   const { userDetails } = useSelector((state) => state.user);
-  const { examDetails } = useSelector((state) => state.exam);
+  // const { examDetails } = useSelector((state) => state.exam);
+  let examDetails = null;
 
-  
+  console.log(userDetails.exam_id, "EXAM ID");
 
   const handleStartExam = async () => {
     if (!userDetails.token) {
@@ -30,14 +31,18 @@ const Details = () => {
     try {
       const res = await axios.get(`${baseApiUrl}/exam.php`);
 
+      console.log(res.data, "EXAM DATA");
+
       // check for reoccurring exam
       const reoccurringExam = res.data.filter(
         (exam) =>
           exam.category === "Multi Choice - Multi Attempt" &&
           exam.group === userDetails?.group
       );
+
       if (reoccurringExam.length > 0) {
-        dispatch(setExamDetails(reoccurringExam[0]));
+        examDetails = reoccurringExam[0];
+        dispatch(setExamDetails(examDetails));
         const today = new Date();
         const expire = new Date(examDetails?.end);
 

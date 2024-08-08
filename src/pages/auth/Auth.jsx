@@ -32,7 +32,8 @@ const Auth = () => {
       dispatch(setUserDetails(response.data));
 
       const userRole = response.data.role;
-      if (userRole === "ADMIN" || userRole === "EXAMINER") {
+      console.log("User role:", userRole);
+      if (userRole === "SA" || userRole === "ADMIN") {
         navigate("/password");
       } else if (userRole === "USER") {
         dispatch(setIsAuthenticatedTrue());
