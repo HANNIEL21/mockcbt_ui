@@ -94,7 +94,7 @@ const Department
       sortable: true,
     },
     {
-      name: 'fACULTY',
+      name: 'FACULTY',
       selector: row => row.faculty_title,
       sortable: true,
     },

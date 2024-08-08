@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Table from "../../../components/Table";
 import { MdDelete, MdEdit, MdAdd, MdImportExport } from "react-icons/md";
 import EditToken from "./EditToken";
-import DeleteQuestion from "./DeleteToken";
 
-import {
-  isLoadingFalse,
-  isLoadingTrue,
-  setTokens,
-} from "../../../redux/Features/Dashboard";
-import { useSelector, useDispatch } from "react-redux";
 import Loader from "../../../components/Loader";
-import { baseApiUrl } from "../../../utils/constants";
 import ImportToken from "./ImportToken";
 import AddToken from "./AddToken";
 import GenerateTokens from "./GenerateTokens";
 import DeleteToken from "./DeleteToken";
 import ModalOverlay from "../../../components/ModalOverlay";
+import { useTokens } from "../../../hooks/useTokens";
 
 const Token = () => {
-  const dispatch = useDispatch();
-  const { tokens, isLoading } = useSelector((state) => state.dashboard);
-
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isOpenGenerateModal, setIsOpenGenerateModal] = useState(false);
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
@@ -30,32 +19,7 @@ const Token = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
-  console.log(tokens);
-
-  useEffect(() => {
-    dispatch(isLoadingTrue());
-
-    const getTokens = async () => {
-      try {
-        const response = await axios.get(`${baseApiUrl}/token.php`);
-        if (response.status !== 200) {
-          console.error("Failed to retrieve tokens:", response.statusText);
-        } else {
-          dispatch(setTokens(response.data));
-        }
-      } catch (error) {
-        console.error(
-          "An error occurred while retrieving tokens:",
-          error.message
-        );
-      } finally {
-        setTimeout(() => {
-          dispatch(isLoadingFalse());
-        }, 500);
-      }
-    };
-    getTokens();
-  }, [dispatch]);
+  const { data: tokens, isPending } = useTokens();
 
   const openModal = (modalName, qId) => {
     switch (modalName) {
@@ -182,58 +146,69 @@ const Token = () => {
 
   return (
     <div className="bg-white h-full rounded-lg shadow-md p-4">
-      {isLoading ? (
-        <div className="h-full w-full flex justify-center items-center">
-          <Loader duration={3000} />
-        </div>
-      ) : (
-        <>
-          <Table
-            title={"TOKEN"}
-            showFilter={true}
-            label={columns}
-            data={tokens}
-            del={"token"}
-            isLoading={isLoading}
-            filter={"token"}
-            children={
-              <div className="flex items-center gap-3">
-                <>
-                  <button
-                    onClick={() => openModal("add")}
-                    className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
-                  >
-                    <MdAdd className="" /> <p>Add Token</p>
-                  </button>
+      <>
+        <Table
+          title={"TOKEN"}
+          showFilter={true}
+          label={columns}
+          data={tokens}
+          del={"token"}
+          isLoading={isPending}
+          filter={"token"}
+          children={
+            <div className="flex items-center gap-3">
+              <>
+                <button
+                  onClick={() => openModal("add")}
+                  className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
+                >
+                  <MdAdd className="" /> <p>Add Token</p>
+                </button>
 
-                  {isOpenAddModal && (
-                    <ModalOverlay>
-                      <AddToken closeAddModal={() => closeModal("add")} />
-                    </ModalOverlay>
-                  )}
-                </>
+                {isOpenAddModal && (
+                  <ModalOverlay>
+                    <AddToken closeAddModal={() => closeModal("add")} />
+                  </ModalOverlay>
+                )}
+              </>
 
-                <>
-                  <button
-                    onClick={() => openModal("generate")}
-                    className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
-                  >
-                    <MdAdd className="" /> <p>Generate Tokens</p>
-                  </button>
+              <>
+                <button
+                  onClick={() => openModal("generate")}
+                  className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
+                >
+                  <MdAdd className="" /> <p>Generate Tokens</p>
+                </button>
 
-                  {isOpenGenerateModal && (
-                    <ModalOverlay>
-                      <GenerateTokens
-                        closeGenerateModal={() => closeModal("generate")}
-                      />
-                    </ModalOverlay>
-                  )}
-                </>
-              </div>
-            }
-          />
-        </>
-      )}
+                {isOpenGenerateModal && (
+                  <ModalOverlay>
+                    <GenerateTokens
+                      closeGenerateModal={() => closeModal("generate")}
+                    />
+                  </ModalOverlay>
+                )}
+              </>
+
+              <>
+                <button
+                  onClick={() => openModal("import")}
+                  className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
+                >
+                  <MdImportExport className="" /> <p>Import Tokens</p>
+                </button>
+
+                {isOpenImportModal && (
+                  <ModalOverlay>
+                    <ImportToken
+                      closeImportModal={() => closeModal("import")}
+                    />
+                  </ModalOverlay>
+                )}
+              </>
+            </div>
+          }
+        />
+      </>
     </div>
   );
 };
