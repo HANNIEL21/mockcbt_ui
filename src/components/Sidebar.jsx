@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import Alert from "../components/Alert";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import logo from "../assets/rsu-logo.png";
-import { appName } from "../utils/constants";
+import { appName, baseApiUrl } from "../utils/constants";
 import {
   BsFillGridFill,
   BsGrid,
@@ -29,9 +31,9 @@ const Sidebar = () => {
   const { userDetails } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (userDetails.role === "ADMIN") {
+    if (userDetails?.role === "ADMIN") {
       dispatch(setSelected("/dashboard"));
-    } else if (userDetails.role === "EXAMINER") {
+    } else if (userDetails?.role === "EXAMINER") {
       dispatch(setSelected("/dashboard/users"));
     }
   }, [userDetails]);
@@ -40,6 +42,22 @@ const Sidebar = () => {
 
   function handleLinkClick(link) {
     dispatch(setSelected(link));
+  }
+
+  const handleLogout = async() => {
+    const username = userDetails?.username;
+    const res = await axios.put(`${baseApiUrl}/login.php`, {
+      username,
+    });
+    console.log(res);
+    if(res.data.status === "success"){
+      dispatch(Logout());
+      Alert(res.data.status, res.data.message);
+      navigate("/");
+
+    }
+    
+    return;
   }
 
   const sa = [
@@ -66,7 +84,7 @@ const Sidebar = () => {
     },
     {
       id: 4,
-      text: "Users",
+      text: "Admins",
       to: "/dashboard/users",
       icon: <PiUsers />,
       activeIcon: <PiUsersFill className="text-xl" />,
@@ -155,49 +173,44 @@ const Sidebar = () => {
       </nav>
       <nav className="w-full h-full flex items-center justify-center overflow-hidden">
         <ul className="flex h-[450px] flex-col justify-center gap-1 overflow-x-hidden px-2 overflow-y-auto">
-          {userDetails.role === "SA"
+          {userDetails?.role === "SA"
             ? sa.map((link) => (
+              <li key={link.id}>
+                <Link
+                  onClick={() => handleLinkClick(link.to)}
+                  to={link.to}
+                  className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${link.to === selected
+                    ? "text-blue-900 bg-slate-100 shadow-md"
+                    : "text-gray-400"
+                    }`}
+                >
+                  {link.to === selected ? link.activeIcon : link.icon}
+                  {link.text}
+                </Link>
+              </li>
+            ))
+            : userDetails?.role === "ADMIN"
+              ? admin.map((link) => (
                 <li key={link.id}>
                   <Link
                     onClick={() => handleLinkClick(link.to)}
                     to={link.to}
-                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${
-                      link.to === selected
-                        ? "text-blue-900 bg-slate-100 shadow-md"
-                        : "text-gray-400"
-                    }`}
+                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${link.to === selected
+                      ? "text-blue-900 bg-slate-100 shadow-md"
+                      : "text-gray-400"
+                      }`}
                   >
                     {link.to === selected ? link.activeIcon : link.icon}
                     {link.text}
                   </Link>
                 </li>
               ))
-            : userDetails.role === "ADMIN"
-            ? admin.map((link) => (
-                <li key={link.id}>
-                  <Link
-                    onClick={() => handleLinkClick(link.to)}
-                    to={link.to}
-                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${
-                      link.to === selected
-                        ? "text-blue-900 bg-slate-100 shadow-md"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    {link.to === selected ? link.activeIcon : link.icon}
-                    {link.text}
-                  </Link>
-                </li>
-              ))
-            : null}
+              : null}
         </ul>
       </nav>
       <nav className="w-full">
         <button
-          onClick={() => {
-            dispatch(Logout());
-            navigate("/");
-          }}
+          onClick={handleLogout}
           className="border-2 px-10 py-2 text-red-400 font-bold border-red-400 hover:bg-red-500 hover:text-white rounded-md"
         >
           Logout

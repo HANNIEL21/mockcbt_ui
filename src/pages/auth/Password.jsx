@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import Alert from "../../components/Alert";
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/rsu-logo.png";
 import { setUserDetails } from "../../redux/Features/User";
@@ -11,6 +12,7 @@ const Password = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user, error, isError } = useSelector((state) => state.auth);
+    const { userDetails } = useSelector((state) => state.user);
     const password = user.password;
 
     useEffect(() => {
@@ -32,9 +34,14 @@ const Password = () => {
                 dispatch(setError(response.data.error));
                 return;
             }
-            dispatch(setUserDetails(response.data));
-            dispatch(setIsAuthenticatedTrue());
-            navigate("/dashboard")
+
+            if(response.status === 200){
+                dispatch(setUserDetails(response.data));
+                dispatch(setIsAuthenticatedTrue());
+                navigate("/dashboard");
+                Alert("success", "user Login successful");
+            }
+            
         } catch (error) {
             if (error.response) {
                 dispatch(setError(error.response.data.message));

@@ -29,10 +29,17 @@ const Auth = () => {
         username,
       });
       console.log("User details:", response.data);
+      if(response.data.status === "error"){
+        dispatch(setError(response.data.message));
+        return;
+      }
       dispatch(setUserDetails(response.data));
 
-      const userRole = response.data.role;
+      const userRole = response.data?.user?.role;
+      const userstatus = response.data.status;
+
       console.log("User role:", userRole);
+
       if (userRole === "SA" || userRole === "ADMIN") {
         navigate("/password");
       } else if (userRole === "USER") {
