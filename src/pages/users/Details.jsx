@@ -117,8 +117,8 @@ const Details = () => {
 
   return (
     <main className="h-screen w-screen bg-gray-200 flex flex-col">
-      <section className=" w-full h-24 flex justify-between items-center px-10">
-        <div className="flex flex-col items-start">
+      <section className=" w-full h-24 flex justify-end md:justify-between items-center md:px-10">
+        <div className="hidden md:flex flex-col items-start">
           <p>Hello</p>
           {userDetails && (
             <p className="font-bold text-3xl text-blue-900">
@@ -131,11 +131,10 @@ const Details = () => {
             <button
               disabled={!!userDetails.token}
               onClick={handleOpenModal}
-              className={`border-2 ${
-                userDetails?.token
-                  ? " border-green-800 hover:bg-green-300 text-green-800"
-                  : " border-red-800 hover:bg-red-300 text-red-800"
-              } font-bold text-sm rounded-md capitalize py-1 px-2 focus:outline-none flex items-center flex-row-reverse gap-2`}
+              className={`border-2 ${userDetails?.token
+                ? " border-green-800 hover:bg-green-300 text-green-800"
+                : " border-red-800 hover:bg-red-300 text-red-800"
+                } font-bold text-sm rounded-md capitalize py-1 px-2 focus:outline-none flex items-center flex-row-reverse gap-2`}
             >
               <IoKey className="text-2xl" />
               {userDetails?.token === null || ""
@@ -192,28 +191,40 @@ const Details = () => {
           </div>
           <button
             onClick={handleLogout}
-            className="flex gap-1 items-center text-red-500 font-bold rounded-md uppercase  hover:underline"
+            className="hidden md:flex gap-1 items-center text-red-500 font-bold rounded-md uppercase  hover:underline"
           >
             logout <IoLogOut />
           </button>
         </div>
       </section>
-      <section className="flex w-full h-full justify-around items-center">
-        <div
-          onClick={handleStartExam}
-          className="bg-gradient-to-br from-green-800 to-blue-800 p-2 h-[250px] w-[250px] rounded-2xl shadow-md flex items-center justify-center cursor-pointer"
-        >
-          <h2 className="text-white font-extrabold text-5xl uppercase bg-transparent">
-            take <br /> exam
-          </h2>
+      <section className="h-full grid grid-cols-1">
+        <div className="md:hidden h-full w-full flex flex-col justify-end">
+          <div className="md:hidden flex flex-col px-5 items-start">
+            <p>Hello</p>
+            {userDetails && (
+              <p className="font-bold text-3xl text-blue-900">
+                {userDetails?.firstname} {userDetails?.lastname}
+              </p>
+            )}
+          </div>
         </div>
-        <div
-          onClick={handleViewResult}
-          className="bg-gradient-to-tr from-blue-800 to-green-800 p-2 h-[250px] w-[250px] rounded-2xl shadow-md flex items-center justify-center cursor-pointer"
-        >
-          <h2 className="text-white font-extrabold text-5xl uppercase bg-transparent">
-            view <br /> results
-          </h2>
+        <div className="flex items-start md:items-center md:justify-center gap-4 md:gap-20 px-5 py-8 h-full w-full">
+          <div
+            onClick={handleStartExam}
+            className="bg-gradient-to-br from-green-800 to-blue-800 p-4 w-2/4 h-2/4 md:h-[250px] md:w-[250px] rounded-2xl shadow-md flex items-center justify-center cursor-pointer"
+          >
+            <h2 className="text-white font-extrabold text-3xl md:text-5xl uppercase bg-transparent">
+              take <br /> exam
+            </h2>
+          </div>
+          <div
+            onClick={handleViewResult}
+            className="bg-gradient-to-tr from-blue-800 to-green-800 p-4 w-2/4 h-2/4 md:h-[250px] md:w-[250px] rounded-2xl shadow-md flex items-center justify-center cursor-pointer"
+          >
+            <h2 className="text-white font-extrabold text-3xl md:text-5xl uppercase bg-transparent">
+              view <br /> results
+            </h2>
+          </div>
         </div>
       </section>
       <section></section>
