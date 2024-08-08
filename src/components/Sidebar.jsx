@@ -37,7 +37,7 @@ const Sidebar = () => {
         { id: 1, text: 'Dashboard', to: '/dashboard', icon: <BsGrid />, activeIcon: <BsFillGridFill className="text-xl" /> },
         { id: 2, text: 'Exams', to: '/dashboard/exams', icon: <BsFileText />, activeIcon: <BsFileTextFill className="text-xl" /> },
         { id: 3, text: 'Candidates', to: '/dashboard/candidates', icon: <HiOutlineUserGroup />, activeIcon: <HiUserGroup className="text-xl" /> },
-        { id: 4, text: 'Users', to: '/dashboard/users', icon: <PiUsers />, activeIcon: <PiUsersFill className="text-xl" /> },
+        { id: 4, text: 'Admins', to: '/dashboard/users', icon: <PiUsers />, activeIcon: <PiUsersFill className="text-xl" /> },
         { id: 5, text: 'Questions', to: '/dashboard/exam-bank', icon: <BsBriefcase />, activeIcon: <BsBriefcaseFill className="text-xl" /> },
         { id: 6, text: 'Results', to: '/dashboard/results', icon: <BsFileEarmarkText />, activeIcon: <BsFileEarmarkTextFill className="text-xl" /> },
         { id: 7, text: 'Token', to: '/dashboard/token', icon: <IoKeyOutline  />, activeIcon: <IoKey className="text-xl" /> },
