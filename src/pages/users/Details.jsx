@@ -23,11 +23,11 @@ const Details = () => {
   console.log(userDetails.exam_id, "EXAM ID");
 
   const handleStartExam = async () => {
-    if (!userDetails.token) {
-      Alert("warning", "No Access Token");
-      setIsOpenModal(true);
-      return;
-    }
+    // if (!userDetails.token) {
+    //   Alert("warning", "No Access Token");
+    //   setIsOpenModal(true);
+    //   return;
+    // }
     try {
       const res = await axios.get(`${baseApiUrl}/exam.php`);
 
@@ -101,11 +101,11 @@ const Details = () => {
   };
 
   const handleViewResult = async () => {
-    if (!userDetails.token) {
-      Alert("warning", "No Access Token");
-      setIsOpenModal(true);
-      return;
-    }
+    // if (!userDetails.token) {
+    //   Alert("warning", "No Access Token");
+    //   setIsOpenModal(true);
+    //   return;
+    // }
     navigate("/result");
   };
 
@@ -144,7 +144,7 @@ const Details = () => {
           )}
         </div>
         <div className="flex gap-4 items-center">
-          <>
+          {/* <>
             <button
               disabled={!!userDetails.token}
               onClick={handleOpenModal}
@@ -190,7 +190,7 @@ const Details = () => {
                 </div>
               </div>
             )}
-          </>
+          </> */}
           <div className="h-16 w-16 flex items-center">
             {userDetails?.avatar ? (
               <>

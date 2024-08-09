@@ -85,10 +85,10 @@ const Candidate = () => {
       selector: (row) => row.course,
       sortable: true,
     },
-    {
-      name: "TOKEN",
-      selector: (row) => row.token,
-    },
+    // {
+    //   name: "TOKEN",
+    //   selector: (row) => row.token,
+    // },
     {
       name: "ACTIONS",
       grow: 2,

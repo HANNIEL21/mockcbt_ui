@@ -16,6 +16,10 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
         group: '',
         examno: '',
         avatar: '',
+        s1: '',
+        s2: '',
+        s3: '',
+        s4: '',
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -103,7 +107,7 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <form className="grid grid-cols-2 gap-4 mt-3">
                             <div className="w-full">
-                                <label htmlFor="username" className='uppercase font-extrabold mb-2 text-blue-900'>Username</label>
+                                <label htmlFor="username" className='uppercase font-extrabold mb-2 text-slate-500'>Username</label>
                                 <input
                                     type="text"
                                     name="username"
@@ -115,7 +119,7 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label htmlFor="examno" className='uppercase font-extrabold mb-2 text-blue-900'>Exam Number</label>
+                                <label htmlFor="examno" className='uppercase font-extrabold mb-2 text-slate-500'>Exam Number</label>
                                 <input
                                     type="text"
                                     name="examno"
@@ -127,7 +131,7 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label htmlFor="firstname" className='uppercase font-extrabold mb-2 text-blue-900'>First Name</label>
+                                <label htmlFor="firstname" className='uppercase font-extrabold mb-2 text-slate-500'>First Name</label>
                                 <input
                                     type="text"
                                     name="firstname"
@@ -139,7 +143,7 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label htmlFor="lastname" className='uppercase font-extrabold mb-2 text-blue-900'>Last Name</label>
+                                <label htmlFor="lastname" className='uppercase font-extrabold mb-2 text-slate-500'>Last Name</label>
                                 <input
                                     type="text"
                                     name="lastname"
@@ -151,7 +155,55 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                                 />
                             </div>
                             <div className="w-full">
-                                <label htmlFor="gender" className='uppercase font-extrabold mb-2 text-blue-900'>Gender</label>
+                                <label htmlFor="s1" className='uppercase font-extrabold mb-2 text-slate-500'>subject 1</label>
+                                <input
+                                    type="text"
+                                    name="s1"
+                                    id="s1"
+                                    className="border-2 focus:border-blue-500 p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Last Name"
+                                    value={formData.s1}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="s2" className='uppercase font-extrabold mb-2 text-slate-500'>subject 2</label>
+                                <input
+                                    type="text"
+                                    name="s2"
+                                    id="s2"
+                                    className="border-2 focus:border-blue-500 p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Last Name"
+                                    value={formData.s2}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="s3" className='uppercase font-extrabold mb-2 text-slate-500'>subject 3</label>
+                                <input
+                                    type="text"
+                                    name="s3"
+                                    id="s3"
+                                    className="border-2 focus:border-blue-500 p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Last Name"
+                                    value={formData.s3}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="s4" className='uppercase font-extrabold mb-2 text-slate-500'>subject 4</label>
+                                <input
+                                    type="text"
+                                    name="s4"
+                                    id="s4"
+                                    className="border-2 focus:border-blue-500 p-2 block w-full sm:text-sm border-gray-300 rounded-md"
+                                    placeholder="Last Name"
+                                    value={formData.s4}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="w-full">
+                                <label htmlFor="gender" className='uppercase font-extrabold mb-2 text-slate-500'>Gender</label>
                                 <select
                                     name="gender"
                                     id="gender"
@@ -166,7 +218,7 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
                                 </select>
                             </div>
                             <div className="w-full">
-                                <label htmlFor="group" className='uppercase font-extrabold mb-2 text-blue-900'>Group</label>
+                                <label htmlFor="group" className='uppercase font-extrabold mb-2 text-slate-500'>Group</label>
                                 <select
                                     name="group"
                                     id="group"

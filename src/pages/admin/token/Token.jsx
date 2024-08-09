@@ -9,7 +9,6 @@ import DeleteToken from "./DeleteToken";
 import ModalOverlay from "../../../components/ModalOverlay";
 import { useTokens } from "../../../hooks/useTokens";
 import Ticket from "./Ticket";
-import {useSelector} from "react-redux";
 
 const Token = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
