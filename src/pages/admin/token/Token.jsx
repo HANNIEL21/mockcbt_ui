@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Table from "../../../components/Table";
 import { MdDelete, MdEdit, MdPrint, MdAdd, MdImportExport } from "react-icons/md";
 import EditToken from "./EditToken";
-
+import { useSelector } from "react-redux"
 import AddToken from "./AddToken";
 import GenerateTokens from "./GenerateTokens";
 import DeleteToken from "./DeleteToken";
@@ -107,107 +107,69 @@ const Token = () => {
       name: "ACTIONS",
       cell: (row) => (
         <div className="flex gap-4">
-          <>
-            <button
-              onClick={() => openModal("edit", row.id)}
-              className="border-2 border-green-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdEdit className="text-xl text-green-700" />
-            </button>
-
-            {isOpenEditModal && (
-              <ModalOverlay>
-                <EditToken
-                  closeEditTokenModal={() => closeModal("edit")}
-                  id={selectedId}
-                />
-              </ModalOverlay>
-            )}
-          </>
-          <>
-            <button
-              onClick={() => openModal("delete", row.id)}
-              className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdDelete className="text-xl text-red-700" />
-            </button>
-
-            {isOpenDeleteModal && (
-              <ModalOverlay>
-                <DeleteToken
-                  closeDeleteTokenModal={() => closeModal("delete")}
-                  id={selectedId}
-                />
-              </ModalOverlay>
-            )}
-          </>
-
-          <>
-            <button
-              onClick={() => openModal("ticket", row.id)}
-              className="border-2 border-blue-700 hover:bg-blue-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdPrint className="text-xl text-blue-700" />
-            </button>
-
-            {isOpenTicketModal && (
-              <ModalOverlay>
-                <Ticket
-                  closeTicketModal={() => closeModal("ticket")}
-                  id={selectedId}
-                  token={row.token}
-                />
-              </ModalOverlay>
-            )}
-          </>
+          {userDetails?.role === "SA" && (
+            <>
+              <button
+                onClick={() => openModal("edit", row.id)}
+                className="border-2 border-green-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+              >
+                <MdEdit className="text-xl text-green-700" />
+              </button>
+    
+              {isOpenEditModal && (
+                <ModalOverlay>
+                  <EditToken
+                    closeEditTokenModal={() => closeModal("edit")}
+                    id={selectedId}
+                  />
+                </ModalOverlay>
+              )}
+            </>
+          )}
+    
+          {userDetails?.role === "SA" && (
+            <>
+              <button
+                onClick={() => openModal("delete", row.id)}
+                className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+              >
+                <MdDelete className="text-xl text-red-700" />
+              </button>
+    
+              {isOpenDeleteModal && (
+                <ModalOverlay>
+                  <DeleteToken
+                    closeDeleteTokenModal={() => closeModal("delete")}
+                    id={selectedId}
+                  />
+                </ModalOverlay>
+              )}
+            </>
+          )}
+    
+          <button
+            onClick={() => openModal("ticket", row.id)}
+            className="border-2 border-blue-700 hover:bg-blue-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+          >
+            <MdPrint className="text-xl text-blue-700" />
+          </button>
+    
+          {isOpenTicketModal && (
+            <ModalOverlay>
+              <Ticket
+                closeTicketModal={() => closeModal("ticket")}
+                id={selectedId}
+                token={row.token}
+              />
+            </ModalOverlay>
+          )}
         </div>
       ),
     },
+    
+
   ];
 
-  const actions = {
-    name: "ACTIONS",
-    cell: (row) => (
-      <div className="flex gap-4">
-        <>
-          <button
-            onClick={() => openModal("edit", row.id)}
-            className="border-2 border-green-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-          >
-            <MdEdit className="text-xl text-green-700" />
-          </button>
-
-          {isOpenEditModal && (
-            <ModalOverlay>
-              <EditToken
-                closeEditTokenModal={() => closeModal("edit")}
-                id={selectedId}
-              />
-            </ModalOverlay>
-          )}
-        </>
-        <>
-          <button
-            onClick={() => openModal("delete", row.id)}
-            className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-          >
-            <MdDelete className="text-xl text-red-700" />
-          </button>
-
-          {isOpenDeleteModal && (
-            <ModalOverlay>
-              <DeleteToken
-                closeDeleteTokenModal={() => closeModal("delete")}
-                id={selectedId}
-              />
-            </ModalOverlay>
-          )}
-        </>
-      </div>
-    ),
-  };
-
-  if (userDetails.role === "SA") columns.push(actions);
 
   return (
     <div className="bg-white h-full rounded-lg shadow-md p-4">
