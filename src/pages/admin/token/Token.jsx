@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Table from "../../../components/Table";
-import { MdDelete, MdEdit, MdAdd, MdImportExport } from "react-icons/md";
+import { MdDelete, MdEdit, MdPrint, MdAdd, MdImportExport } from "react-icons/md";
 import EditToken from "./EditToken";
 
 import Loader from "../../../components/Loader";
@@ -10,6 +10,7 @@ import GenerateTokens from "./GenerateTokens";
 import DeleteToken from "./DeleteToken";
 import ModalOverlay from "../../../components/ModalOverlay";
 import { useTokens } from "../../../hooks/useTokens";
+import Ticket from "./Ticket";
 
 const Token = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
@@ -17,6 +18,7 @@ const Token = () => {
   const [isOpenImportModal, setIsOpenImportModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [isOpenTicketModal, setIsOpenTicketModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
   const { data: tokens, isPending } = useTokens();
@@ -40,7 +42,10 @@ const Token = () => {
         setSelectedId(qId);
         setIsOpenDeleteModal(true);
         break;
-
+      case "ticket":
+        setSelectedId(qId);
+        setIsOpenTicketModal(true);
+        break;
       default:
         console.error("Invalid modal name");
     }
@@ -62,6 +67,9 @@ const Token = () => {
         break;
       case "delete":
         setIsOpenDeleteModal(false);
+        break;
+      case "ticket":
+        setIsOpenTicketModal(false);
         break;
       default:
         console.error("Invalid modal name");
@@ -135,6 +143,25 @@ const Token = () => {
                 <DeleteToken
                   closeDeleteTokenModal={() => closeModal("delete")}
                   id={selectedId}
+                />
+              </ModalOverlay>
+            )}
+          </>
+
+          <>
+            <button
+              onClick={() => openModal("ticket", row.id)}
+              className="border-2 border-blue-700 hover:bg-blue-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+            >
+              <MdPrint className="text-xl text-blue-700" />
+            </button>
+
+            {isOpenTicketModal && (
+              <ModalOverlay>
+                <Ticket
+                  closeTicketModal={() => closeModal("ticket")}
+                  id={selectedId}
+                  token={row.token}
                 />
               </ModalOverlay>
             )}
