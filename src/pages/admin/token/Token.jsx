@@ -3,8 +3,6 @@ import Table from "../../../components/Table";
 import { MdDelete, MdEdit, MdPrint, MdAdd, MdImportExport } from "react-icons/md";
 import EditToken from "./EditToken";
 
-import Loader from "../../../components/Loader";
-import ImportToken from "./ImportToken";
 import AddToken from "./AddToken";
 import GenerateTokens from "./GenerateTokens";
 import DeleteToken from "./DeleteToken";
@@ -15,13 +13,15 @@ import Ticket from "./Ticket";
 const Token = () => {
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isOpenGenerateModal, setIsOpenGenerateModal] = useState(false);
-  const [isOpenImportModal, setIsOpenImportModal] = useState(false);
   const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isOpenTicketModal, setIsOpenTicketModal] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
   const { data: tokens, isPending } = useTokens();
+  const { userDetails } = useSelector((state) => state.user);
+
+  console.log(userDetails);
 
   const openModal = (modalName, qId) => {
     switch (modalName) {
@@ -30,9 +30,6 @@ const Token = () => {
         break;
       case "generate":
         setIsOpenGenerateModal(true);
-        break;
-      case "import":
-        setIsOpenImportModal(true);
         break;
       case "edit":
         setSelectedId(qId);
@@ -58,9 +55,6 @@ const Token = () => {
         break;
       case "generate":
         setIsOpenGenerateModal(false);
-        break;
-      case "import":
-        setIsOpenImportModal(false);
         break;
       case "edit":
         setIsOpenEditModal(false);
@@ -171,6 +165,50 @@ const Token = () => {
     },
   ];
 
+  const actions = {
+    name: "ACTIONS",
+    cell: (row) => (
+      <div className="flex gap-4">
+        <>
+          <button
+            onClick={() => openModal("edit", row.id)}
+            className="border-2 border-green-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+          >
+            <MdEdit className="text-xl text-green-700" />
+          </button>
+
+          {isOpenEditModal && (
+            <ModalOverlay>
+              <EditToken
+                closeEditTokenModal={() => closeModal("edit")}
+                id={selectedId}
+              />
+            </ModalOverlay>
+          )}
+        </>
+        <>
+          <button
+            onClick={() => openModal("delete", row.id)}
+            className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+          >
+            <MdDelete className="text-xl text-red-700" />
+          </button>
+
+          {isOpenDeleteModal && (
+            <ModalOverlay>
+              <DeleteToken
+                closeDeleteTokenModal={() => closeModal("delete")}
+                id={selectedId}
+              />
+            </ModalOverlay>
+          )}
+        </>
+      </div>
+    ),
+  };
+
+  if (userDetails.role === "SA") columns.push(actions);
+
   return (
     <div className="bg-white h-full rounded-lg shadow-md p-4">
       <>
@@ -211,23 +249,6 @@ const Token = () => {
                   <ModalOverlay>
                     <GenerateTokens
                       closeGenerateModal={() => closeModal("generate")}
-                    />
-                  </ModalOverlay>
-                )}
-              </>
-
-              <>
-                <button
-                  onClick={() => openModal("import")}
-                  className="bg-blue-900 flex items-center gap-2 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
-                >
-                  <MdImportExport className="" /> <p>Import Tokens</p>
-                </button>
-
-                {isOpenImportModal && (
-                  <ModalOverlay>
-                    <ImportToken
-                      closeImportModal={() => closeModal("import")}
                     />
                   </ModalOverlay>
                 )}
