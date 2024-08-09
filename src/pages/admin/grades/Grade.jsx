@@ -18,12 +18,13 @@ const Grade = () => {
   const [isOpenEditResultModal, setIsOpenEditResultModal] = useState(false);
   const [isOpenDeleteResultModal, setIsOpenDeleteResultModal] = useState(false);
   const [selectedResultId, setSelectedResultId] = useState(null);
+  const [selectedResult, setSelectedResult] = useState(null);
 
   const { data: results, isPending } = useResults();
 
   console.log(results);
 
-  const openModal = (modalName, rId) => {
+  const openModal = (modalName, rId, result) => {
     switch (modalName) {
       case "edit":
         setSelectedResultId(rId);
@@ -31,6 +32,7 @@ const Grade = () => {
         break;
       case "view":
         setSelectedResultId(rId);
+        setSelectedResult(result);
         setIsOpenViewResultModal(true);
         break;
       case "delete":
@@ -97,20 +99,22 @@ const Grade = () => {
       name: "ACTIONS",
       grow: 2,
       cell: (row) => (
-        <div className="flex gap-4">
+        <div key={row.id} className="flex gap-4">
           <>
             <button
-              onClick={() => openModal("edit", row.id)}
+              onClick={() => {
+                openModal("view", row.id, row);
+              }}
               className="border-2 border-blue-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
             >
               <MdRemoveRedEye className="text-xl text-blue-700" />
             </button>
 
-            {isOpenEditResultModal && (
+            {isOpenViewResultModal && (
               <ModalOverlay>
                 <ViewResult
-                  closeViewResultModal={() => closeModal("edit")}
-                  rId={selectedResultId}
+                  closeViewResultModal={() => closeModal("view")}
+                  result={row}
                 />
               </ModalOverlay>
             )}
@@ -140,7 +144,7 @@ const Grade = () => {
   if (isPending) return <PageLoader />;
 
   return (
-    <div className="h-full p-4">
+    <div className="h-full p-4 ">
       <Table
         title={"results"}
         showFilter={true}

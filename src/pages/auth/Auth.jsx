@@ -29,13 +29,13 @@ const Auth = () => {
         username,
       });
       console.log("User details:", response.data);
-      if(response.data.status === "error"){
+      if (response.data.status === "error") {
         dispatch(setError(response.data.message));
         return;
       }
       dispatch(setUserDetails(response.data));
 
-      const userRole = response.data?.user?.role;
+      const userRole = response.data?.data?.role;
       const userstatus = response.data.status;
 
       console.log("User role:", userRole);
