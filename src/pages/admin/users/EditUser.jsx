@@ -3,6 +3,7 @@ import axios from 'axios';
 import { MdEdit } from 'react-icons/md';
 import { baseApiUrl } from '../../../utils/constants';
 import Alert from '../../../components/Alert';
+import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
 
 const EditUser = ({ userId, closeEditUserModal }) => {
     const [formData, setFormData] = useState({
@@ -11,6 +12,7 @@ const EditUser = ({ userId, closeEditUserModal }) => {
         firstname: '',
         lastname: '',
         role: '',
+        status: '',
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -25,6 +27,8 @@ const EditUser = ({ userId, closeEditUserModal }) => {
                 if (response.status === 200) {
                     const userData = response.data;
                     setFormData(userData);
+                    console.log(userData);
+                    
                 } else {
                     setError('Failed to fetch user data');
                 }
@@ -73,16 +77,34 @@ const EditUser = ({ userId, closeEditUserModal }) => {
         }
     };
 
+    const handleStatusUpdate = () => {
+        setFormData(prevState => ({
+            ...prevState,
+            status: prevState.status === "INACTIVE" ? "ACTIVE" : "INACTIVE"
+        }));
+    };
+
 
     return (
         <div>
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <MdEdit className='text-green-500 text-sm' />
+                <div className="flex flex-col">
+                    <div className='flex gap-5'>
+                        <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <MdEdit className='text-green-500 text-md' />
+                        </div>
+                        <div className='w-full flex justify-between'>
+                            <h3 className="text-lg mt-2 leading-6 text-green-500 font-extrabold uppercase" id="modal-title">Edit Candidate</h3>
+                            <button className='shadow-md px-2 rounded-md' onClick={handleStatusUpdate}>
+                                {formData?.status === "INACTIVE" ? (
+                                    <FaToggleOff className='text-3xl text-red-500' />
+                                ) : (
+                                    <FaToggleOn className='text-3xl text-green-500' />
+                                )}
+                            </button>
+                        </div>
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                        <h3 className="text-lg mt-2 leading-6 font-medium text-gray-900" id="modal-title">Edit User</h3>
                         <form className="grid grid-cols-2 sm:grid-cols-2 gap-4 mt-3">
                             <div className="w-full">
                                 <input
@@ -128,7 +150,7 @@ const EditUser = ({ userId, closeEditUserModal }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            
+
                             <div className="w-full">
                                 <label htmlFor="role" className="sr-only">User Group</label>
                                 <select

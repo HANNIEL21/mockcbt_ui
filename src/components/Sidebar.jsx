@@ -19,7 +19,7 @@ import { PiUsers, PiUsersFill } from "react-icons/pi";
 import { RiSettings5Fill, RiSettings5Line } from "react-icons/ri";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi2";
 import { IoKey, IoKeyOutline } from "react-icons/io5";
-import { Logout } from "../redux/Features/User";
+import { logout } from "../redux/Features/Auth";
 import { setSelected } from "../redux/Features/Tabs";
 
 const Sidebar = () => {
@@ -51,7 +51,7 @@ const Sidebar = () => {
     });
     console.log(res);
     if(res.data.status === "success"){
-      dispatch(Logout());
+      dispatch(logout());
       Alert(res.data.status, res.data.message);
       navigate("/");
 

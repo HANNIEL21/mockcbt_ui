@@ -101,14 +101,31 @@ const Details = () => {
   };
 
   const handleViewResult = async () => {
+    if (!userDetails.token) {
+      Alert("warning", "No Access Token");
+      setIsOpenModal(true);
+      return;
+    }
     navigate("/result");
   };
 
-  const handleLogout = () => {
-    dispatch(logout());
-    dispatch(setIsAuthenticatedFalse());
-    navigate("/");
-  };
+  const handleLogout = async() => {
+    const username = userDetails?.examno;
+    console.log(username);
+    
+    const res = await axios.put(`${baseApiUrl}/login.php`, {
+      username,
+    });
+    console.log(res);
+    if(res.data.status === "success"){
+      dispatch(logout());
+      Alert(res.data.status, res.data.message);
+      navigate("/");
+
+    }
+    
+    return;
+  }
 
   const handleOpenModal = () => {
     if (!!userDetails.token) return;
