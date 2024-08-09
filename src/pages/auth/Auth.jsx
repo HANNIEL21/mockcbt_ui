@@ -29,27 +29,29 @@ const Auth = () => {
         username,
       });
       console.log("User details:", response.data);
-      if (response.data.status === "error") {
+      if (response.data.status === "success") {
+        dispatch(setUserDetails(response.data?.data));
+
+        const userRole = response.data?.data?.role;
+        const userstatus = response.data.status;
+
+        console.log("User role:", userRole);
+
+        if (userRole === "SA" || userRole === "ADMIN") {
+          navigate("/password");
+        } else if (userRole === "USER") {
+          dispatch(setIsAuthenticatedTrue());
+          navigate("/candidate", {
+            replace: true,
+          });
+        } else {
+          throw new Error("Invalid user credential");
+        }
+      } else {
         dispatch(setError(response.data.message));
         return;
-      }
-      dispatch(setUserDetails(response.data));
+       }
 
-      const userRole = response.data?.data?.role;
-      const userstatus = response.data.status;
-
-      console.log("User role:", userRole);
-
-      if (userRole === "SA" || userRole === "ADMIN") {
-        navigate("/password");
-      } else if (userRole === "USER") {
-        dispatch(setIsAuthenticatedTrue());
-        navigate("/candidate", {
-          replace: true,
-        });
-      } else {
-        throw new Error("Invalid user credential");
-      }
     } catch (error) {
       if (error.response) {
         // Request was made and server responded with a status code that falls out of the range of 2xx

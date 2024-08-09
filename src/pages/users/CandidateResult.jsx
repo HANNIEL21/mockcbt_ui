@@ -6,6 +6,7 @@ import { baseApiUrl } from '../../utils/constants';
 import { logout, setIsAuthenticatedFalse } from '../../redux/Features/Auth';
 import Table from '../../components/Table';
 import { IoPerson, IoArrowBackOutline, IoLogOutOutline } from "react-icons/io5";
+import Alert from '../../components/Alert';
 
 const CandidateResult = () => {
     const navigate = useNavigate();
@@ -32,10 +33,20 @@ const CandidateResult = () => {
     console.log(userDetails);
     console.log(result);
 
-    const handleLogout = () => {
-        dispatch(logout());
-        dispatch(setIsAuthenticatedFalse());
-        navigate('/');
+    const handleLogout = async () => {
+        const username = userDetails?.examno;
+        const res = await axios.put(`${baseApiUrl}/login.php`, {
+            username,
+        });
+        console.log(res);
+        if (res.data.status === "success") {
+            dispatch(logout());
+            Alert(res.data.status, res.data.message);
+            navigate("/");
+
+        }
+
+        return;
     }
 
     const columns = [
