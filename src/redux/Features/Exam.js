@@ -74,7 +74,7 @@ export const examSlice = createSlice({
         setQuestions: (state, { payload }) => {
             state.questions = payload;
         },
-        setAnswers: (state, { payload }) => {
+        setExamAnswers: (state, { payload }) => {
             state.answers = payload;
         },
         setResult: (state, { payload }) => {
@@ -98,7 +98,7 @@ export const {
     updateExamDetails,
     setExamDetails,
     setQuestions,
-    setAnswers,
+    setExamAnswers,
     setResult,
 } = examSlice.actions;
 

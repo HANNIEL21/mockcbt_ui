@@ -3,13 +3,10 @@ import axios from "axios";
 import { IoPerson } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setExamDetails, setQuestions } from "../../redux/Features/Exam";
 import { baseApiUrl } from "../../utils/constants";
-import { logout, setIsAuthenticatedFalse } from "../../redux/Features/Auth";
+import { logout } from "../../redux/Features/Auth";
 import Alert from "../../components/Alert";
-import { IoKey, IoLogOut } from "react-icons/io5";
-import AddToken from "./AddToken";
-import ModalOverlay from "../../components/ModalOverlay";
+import { IoLogOut } from "react-icons/io5";
 
 const Details = () => {
   const dispatch = useDispatch();
@@ -23,90 +20,94 @@ const Details = () => {
 
   console.log(userDetails.exam_id, "EXAM ID");
 
-  const handleStartExam = async () => {
+  // const handleStartExam = async () => {
+  //   // if (!userDetails.token) {
+  //   //   Alert("warning", "No Access Token");
+  //   //   setIsOpenModal(true);
+  //   //   return;
+  //   // }
+  //   try {
+  //     const res = await axios.get(`${baseApiUrl}/exam.php`);
+
+  //     console.log(res.data, "EXAM DATA");
+
+  //     // check for reoccurring exam
+  //     const reoccurringExam = res.data.filter(
+  //       (exam) =>
+  //         exam.category === "Multi Choice - Multi Attempt" &&
+  //         exam.group === userDetails?.group
+  //     );
+
+  //     if (reoccurringExam.length > 0) {
+  //       examDetails = reoccurringExam[0];
+  //       dispatch(setExamDetails(examDetails));
+  //       const today = new Date();
+  //       const expire = new Date(examDetails?.end);
+
+  //       if (expire.toDateString() === today.toDateString()) {
+  //         Alert("info", "Exam Ended");
+  //         return;
+  //       }
+
+  //       const sub = {
+  //         id: examDetails?.exam_id,
+  //         sub1: userDetails?.s1,
+  //         sub2: userDetails?.s2,
+  //         sub3: userDetails?.s3,
+  //         sub4: userDetails?.s4,
+  //       };
+
+  //       const res = await axios.post(`${baseApiUrl}/start.php`, sub);
+
+  //       if (res.data.status === "success") {
+  //         const questions = res.data.questions;
+
+  //         // Group the questions by course
+  //         const groupedQuestions = {};
+  //         questions.forEach((question) => {
+  //           if (!groupedQuestions[question.course]) {
+  //             groupedQuestions[question.course] = [];
+  //           }
+  //           groupedQuestions[question.course].push(question);
+  //         });
+
+  //         // Shuffle the groups
+  //         const shuffledGroups = Object.values(groupedQuestions);
+  //         for (let i = shuffledGroups.length - 1; i > 0; i--) {
+  //           const j = Math.floor(Math.random() * (i + 1));
+  //           [shuffledGroups[i], shuffledGroups[j]] = [
+  //             shuffledGroups[j],
+  //             shuffledGroups[i],
+  //           ];
+  //         }
+
+  //         // Flatten the array
+  //         const shuffledQuestions = shuffledGroups.flat();
+
+  //         console.log(shuffledQuestions);
+  //         dispatch(setQuestions(shuffledQuestions));
+  //       } else {
+  //         Alert(res.data.status, res.data.message);
+  //       }
+  //       // navigate(`/instruction/${examDetails?.exam_id}`);
+  //       navigate(`/instruction/${examDetails?.exam_id}`);
+  //     } else {
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleStartExam = () => {
+    navigate("/select");
+  };
+
+  const handleViewResult = async () => {
     // if (!userDetails.token) {
     //   Alert("warning", "No Access Token");
     //   setIsOpenModal(true);
     //   return;
     // }
-    try {
-      const res = await axios.get(`${baseApiUrl}/exam.php`);
-
-      console.log(res.data, "EXAM DATA");
-
-      // check for reoccurring exam
-      const reoccurringExam = res.data.filter(
-        (exam) =>
-          exam.category === "Multi Choice - Multi Attempt" &&
-          exam.group === userDetails?.group
-      );
-
-      if (reoccurringExam.length > 0) {
-        examDetails = reoccurringExam[0];
-        dispatch(setExamDetails(examDetails));
-        const today = new Date();
-        const expire = new Date(examDetails?.end);
-
-        if (expire.toDateString() === today.toDateString()) {
-          Alert("info", "Exam Ended");
-          return;
-        }
-
-        const sub = {
-          id: examDetails?.exam_id,
-          sub1: userDetails?.s1,
-          sub2: userDetails?.s2,
-          sub3: userDetails?.s3,
-          sub4: userDetails?.s4,
-        };
-
-        const res = await axios.post(`${baseApiUrl}/start.php`, sub);
-
-        if (res.data.status === "success") {
-          const questions = res.data.questions;
-
-          // Group the questions by course
-          const groupedQuestions = {};
-          questions.forEach((question) => {
-            if (!groupedQuestions[question.course]) {
-              groupedQuestions[question.course] = [];
-            }
-            groupedQuestions[question.course].push(question);
-          });
-
-          // Shuffle the groups
-          const shuffledGroups = Object.values(groupedQuestions);
-          for (let i = shuffledGroups.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledGroups[i], shuffledGroups[j]] = [
-              shuffledGroups[j],
-              shuffledGroups[i],
-            ];
-          }
-
-          // Flatten the array
-          const shuffledQuestions = shuffledGroups.flat();
-
-          console.log(shuffledQuestions);
-          dispatch(setQuestions(shuffledQuestions));
-        } else {
-          Alert(res.data.status, res.data.message);
-        }
-        // navigate(`/instruction/${examDetails?.exam_id}`);
-        navigate(`/instruction/${examDetails?.exam_id}`);
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleViewResult = async () => {
-    if (!userDetails.token) {
-      Alert("warning", "No Access Token");
-      setIsOpenModal(true);
-      return;
-    }
     navigate("/result");
   };
 
@@ -144,7 +145,7 @@ const Details = () => {
           )}
         </div>
         <div className="flex gap-4 items-center">
-          <>
+          {/* <>
             <button
               disabled={!!userDetails.token}
               onClick={handleOpenModal}
@@ -168,7 +169,7 @@ const Details = () => {
                 />
               </ModalOverlay>
             )}
-          </>
+          </> */}
           <div className="h-16 w-16 flex items-center">
             {userDetails?.avatar ? (
               <>

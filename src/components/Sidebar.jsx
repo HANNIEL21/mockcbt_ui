@@ -103,15 +103,15 @@ const Sidebar = () => {
       icon: <BsFileEarmarkText />,
       activeIcon: <BsFileEarmarkTextFill className="text-xl" />,
     },
+    // {
+    //   id: 7,
+    //   text: "Token",
+    //   to: "/dashboard/token",
+    //   icon: <IoKeyOutline />,
+    //   activeIcon: <IoKey className="text-xl" />,
+    // },
     {
       id: 7,
-      text: "Token",
-      to: "/dashboard/token",
-      icon: <IoKeyOutline />,
-      activeIcon: <IoKey className="text-xl" />,
-    },
-    {
-      id: 8,
       text: "Settings",
       to: "/dashboard/settings",
       icon: <RiSettings5Line />,

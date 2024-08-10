@@ -115,16 +115,15 @@ export const department = [
 ]
 
 export const subjects = [
-    "MEDICAL-SURGICAL NURSING",
-    "USE OF ENGLISH",
-    "MATHEMATICS ",
+    "ENGLISH",
+    "MATHEMATICS",
     "PHYSICS",
     "CHEMISTRY",
     "BIOLOGY",
     "ECONOMICS",
     "GEOGRAPHY",
     "HISTORY",
-    "CRS",
+    "CRK",
 ]
 
 export const status = [

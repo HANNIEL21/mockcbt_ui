@@ -129,10 +129,11 @@ const CandidateResult = () => {
           <h1 className="text-4xl text-blue-900 font-extrabold uppercase">
             {userDetails?.firstname} {userDetails?.lastname}
           </h1>
-          <p className="font-extrabold capitalize">{userDetails?.course}</p>
-          <p className="font-extrabold capitalize">{userDetails?.examno}</p>
-          <p className="font-extrabold capitalize hidden">
-            {userDetails?.token}
+          <p className="font-extrabold capitalize">
+            course : <span>{userDetails?.course}</span>
+          </p>
+          <p className="font-extrabold capitalize">
+            exam no : <span>{userDetails?.examno}</span>
           </p>
         </div>
       </section>
