@@ -26,6 +26,7 @@ import Signup from "./pages/auth/Signup";
 import AddToken from "./pages/auth/AddToken";
 import Token from "./pages/admin/token/Token";
 import Subject from "./pages/users/Subject";
+import Review from "./pages/users/Review";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -78,6 +79,10 @@ function App() {
           <Route
             path="/result"
             element={isAuthenticated ? <CandidateResult /> : <Auth />}
+          />
+          <Route
+            path="/review"
+            element={isAuthenticated ? <Review /> : <Auth />}
           />
           <Route
             path="*"

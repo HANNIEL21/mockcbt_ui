@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import UserDetail from "../../components/UserDetail";
 import Timmer from "../../components/Timmer";
 import Alert from "../../components/Alert";
 import { baseApiUrl } from "../../utils/constants";
+import { setExamAnswers } from "../../redux/Features/Exam";
 
 const Examiner = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { questions, examDetails } = useSelector((state) => state.exam);
   const { userDetails } = useSelector((state) => state.user);
@@ -152,7 +154,8 @@ const Examiner = () => {
       console.log(res);
       if (res.data.status === "success") {
         Alert(res.data.status, res.data.message);
-        navigate("/result");
+        dispatch(setExamAnswers(answers));
+        navigate("/review");
       }
       Alert(res.data.status, res.data.message);
       console.log(res.data.message);
