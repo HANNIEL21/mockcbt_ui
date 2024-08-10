@@ -103,12 +103,14 @@ const Examiner = () => {
 
     // Iterate over each question and check if the answer is correct
     questions.forEach((question) => {
+      // get candidate answer for that question
       const answer = answers.find((a) => a.qid === question.id);
+
       if (answer && answer.value === question.answer) {
         // Assuming 'answer' is the correct property in the question object
         totalCorrectAnswers++;
         const course = question.course;
-        if (!correctAnswersByCourse[course]) {
+        if (!correctAnswersByCourse.hasOwnProperty(course)) {
           correctAnswersByCourse[course] = 0;
         }
         correctAnswersByCourse[course]++;
