@@ -22,10 +22,10 @@ import Department from "./pages/admin/config/department/Department";
 import Courses from "./pages/admin/config/course/Courses";
 import Result from "./pages/admin/config/Result";
 import General from "./pages/admin/config/General";
-import Select from "./pages/auth/Select";
 import Signup from "./pages/auth/Signup";
 import AddToken from "./pages/auth/AddToken";
 import Token from "./pages/admin/token/Token";
+import Subject from "./pages/users/Subject";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -61,7 +61,7 @@ function App() {
           </Route>
           <Route
             path="/select"
-            element={isAuthenticated ? <Select /> : <Auth />}
+            element={isAuthenticated ? <Subject /> : <Auth />}
           />
           <Route
             path="/candidate"

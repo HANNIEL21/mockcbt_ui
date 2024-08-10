@@ -22,83 +22,87 @@ const Details = () => {
 
   console.log(userDetails.exam_id, "EXAM ID");
 
-  const handleStartExam = async () => {
-    // if (!userDetails.token) {
-    //   Alert("warning", "No Access Token");
-    //   setIsOpenModal(true);
-    //   return;
-    // }
-    try {
-      const res = await axios.get(`${baseApiUrl}/exam.php`);
+  // const handleStartExam = async () => {
+  //   // if (!userDetails.token) {
+  //   //   Alert("warning", "No Access Token");
+  //   //   setIsOpenModal(true);
+  //   //   return;
+  //   // }
+  //   try {
+  //     const res = await axios.get(`${baseApiUrl}/exam.php`);
 
-      console.log(res.data, "EXAM DATA");
+  //     console.log(res.data, "EXAM DATA");
 
-      // check for reoccurring exam
-      const reoccurringExam = res.data.filter(
-        (exam) =>
-          exam.category === "Multi Choice - Multi Attempt" &&
-          exam.group === userDetails?.group
-      );
+  //     // check for reoccurring exam
+  //     const reoccurringExam = res.data.filter(
+  //       (exam) =>
+  //         exam.category === "Multi Choice - Multi Attempt" &&
+  //         exam.group === userDetails?.group
+  //     );
 
-      if (reoccurringExam.length > 0) {
-        examDetails = reoccurringExam[0];
-        dispatch(setExamDetails(examDetails));
-        const today = new Date();
-        const expire = new Date(examDetails?.end);
+  //     if (reoccurringExam.length > 0) {
+  //       examDetails = reoccurringExam[0];
+  //       dispatch(setExamDetails(examDetails));
+  //       const today = new Date();
+  //       const expire = new Date(examDetails?.end);
 
-        if (expire.toDateString() === today.toDateString()) {
-          Alert("info", "Exam Ended");
-          return;
-        }
+  //       if (expire.toDateString() === today.toDateString()) {
+  //         Alert("info", "Exam Ended");
+  //         return;
+  //       }
 
-        const sub = {
-          id: examDetails?.exam_id,
-          sub1: userDetails?.s1,
-          sub2: userDetails?.s2,
-          sub3: userDetails?.s3,
-          sub4: userDetails?.s4,
-        };
+  //       const sub = {
+  //         id: examDetails?.exam_id,
+  //         sub1: userDetails?.s1,
+  //         sub2: userDetails?.s2,
+  //         sub3: userDetails?.s3,
+  //         sub4: userDetails?.s4,
+  //       };
 
-        const res = await axios.post(`${baseApiUrl}/start.php`, sub);
+  //       const res = await axios.post(`${baseApiUrl}/start.php`, sub);
 
-        if (res.data.status === "success") {
-          const questions = res.data.questions;
+  //       if (res.data.status === "success") {
+  //         const questions = res.data.questions;
 
-          // Group the questions by course
-          const groupedQuestions = {};
-          questions.forEach((question) => {
-            if (!groupedQuestions[question.course]) {
-              groupedQuestions[question.course] = [];
-            }
-            groupedQuestions[question.course].push(question);
-          });
+  //         // Group the questions by course
+  //         const groupedQuestions = {};
+  //         questions.forEach((question) => {
+  //           if (!groupedQuestions[question.course]) {
+  //             groupedQuestions[question.course] = [];
+  //           }
+  //           groupedQuestions[question.course].push(question);
+  //         });
 
-          // Shuffle the groups
-          const shuffledGroups = Object.values(groupedQuestions);
-          for (let i = shuffledGroups.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffledGroups[i], shuffledGroups[j]] = [
-              shuffledGroups[j],
-              shuffledGroups[i],
-            ];
-          }
+  //         // Shuffle the groups
+  //         const shuffledGroups = Object.values(groupedQuestions);
+  //         for (let i = shuffledGroups.length - 1; i > 0; i--) {
+  //           const j = Math.floor(Math.random() * (i + 1));
+  //           [shuffledGroups[i], shuffledGroups[j]] = [
+  //             shuffledGroups[j],
+  //             shuffledGroups[i],
+  //           ];
+  //         }
 
-          // Flatten the array
-          const shuffledQuestions = shuffledGroups.flat();
+  //         // Flatten the array
+  //         const shuffledQuestions = shuffledGroups.flat();
 
-          console.log(shuffledQuestions);
-          dispatch(setQuestions(shuffledQuestions));
-        } else {
-          Alert(res.data.status, res.data.message);
-        }
-        // navigate(`/instruction/${examDetails?.exam_id}`);
-        navigate(`/instruction/${examDetails?.exam_id}`);
-      } else {
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //         console.log(shuffledQuestions);
+  //         dispatch(setQuestions(shuffledQuestions));
+  //       } else {
+  //         Alert(res.data.status, res.data.message);
+  //       }
+  //       // navigate(`/instruction/${examDetails?.exam_id}`);
+  //       navigate(`/instruction/${examDetails?.exam_id}`);
+  //     } else {
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleStartExam = () => {
+    navigate("/select");
+  }
 
   const handleViewResult = async () => {
     // if (!userDetails.token) {
