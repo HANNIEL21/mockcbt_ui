@@ -177,7 +177,7 @@ const Candidate = () => {
                 {isOpenImportCandidateModal && (
                   <ModalOverlay>
                     <ImportCandidate
-                      closeImportCandidateModal={() => closeModal("import")}
+                      closeImportModal={() => closeModal("import")}
                     />
                   </ModalOverlay>
                 )}

@@ -93,7 +93,7 @@ const Examiner = () => {
     }
   };
 
-  const handleTimeout = () => {
+  const handleTimeout = (e) => {
     handleSubmit();
   };
 
