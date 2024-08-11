@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { baseApiUrl } from "../../utils/constants";
-import { logout, setIsAuthenticatedFalse } from "../../redux/Features/Auth";
+import { logout } from "../../redux/Features/Auth";
 import Table from "../../components/Table";
 import { IoPerson, IoArrowBackOutline, IoLogOutOutline } from "react-icons/io5";
 import Alert from "../../components/Alert";

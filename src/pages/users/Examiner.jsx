@@ -241,10 +241,13 @@ const Examiner = () => {
         <UserDetail />
       </section>
 
-      <section className="w-full h-full p-10 px-20 flex flex-col gap-8">
+      <section className="w-full h-full p-10 px-20 flex flex-col gap-8 relative">
+        <p className="absolute font-bold text-gray-500 text-2xl -rotate-45 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          THIS IS ONLY A PREPARATORY TEST
+        </p>
         <div
           key={currentQuestion.id}
-          className="flex flex-col justify-between gap-16"
+          className="flex flex-col justify-between gap-16 bg-white/90  relative z-30"
         >
           <div>
             <p className="font-extrabold text-slate-600">
@@ -255,7 +258,7 @@ const Examiner = () => {
             </h2>
           </div>
           <div className="h-full w-full">
-            <form className="h-4/4 flex flex-col gap-10">
+            <form className="flex flex-col gap-10">
               <h3>{currentQuestion.question}</h3>
               <div>
                 {options.map((option, index) => (
@@ -281,7 +284,7 @@ const Examiner = () => {
                     />
                     <label
                       htmlFor={`option-${index}`}
-                      className="ml-2 text-lg text-gray-700"
+                      className="ml-2 text-lg text-gray-700 px-2 py-1"
                     >
                       {option}
                     </label>
