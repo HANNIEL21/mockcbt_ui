@@ -92,6 +92,7 @@ const Subject = () => {
 
     const handleStartExam = async () => {
         try {
+            dispatch(setQuestions([]));
             const res = await axios.get(`${baseApiUrl}/exam.php`);
 
             console.log(res.data, "EXAM DATA");

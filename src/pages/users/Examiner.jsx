@@ -259,7 +259,7 @@ const Examiner = () => {
           </div>
           <div className="h-full w-full">
             <form className="flex flex-col gap-10">
-              <h3>{currentQuestion.question}</h3>
+            <h3 dangerouslySetInnerHTML={{ __html: currentQuestion.question.toString().replace(/\n/g, "<br>") }}></h3>
               <div>
                 {options.map((option, index) => (
                   <div key={index} className="flex items-center mb-4">
