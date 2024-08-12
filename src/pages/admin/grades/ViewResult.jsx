@@ -1,9 +1,12 @@
-import React, {forwardRef, useRef} from "react";
+import React, {forwardRef, useRef, useEffect} from "react";
 import logo from "../../../assets/rsu-logo.png";
 
 import {useReactToPrint} from "react-to-print";
 
-const ViewResult = ({result, closeViewResultModal}) => {
+const ViewResult = ({data, closeViewResultModal}) => {
+
+    console.log(data);
+    
 
 
     return (
@@ -16,9 +19,9 @@ const ViewResult = ({result, closeViewResultModal}) => {
                     >
                         Close
                     </button>
-                    <PrintButton result={result}/>
+                    <PrintButton result={data}/>
                 </div>
-                <Result result={result}/>
+                <Result result={data}/>
             </div>
         </div>
     );
@@ -76,15 +79,15 @@ const  Result = forwardRef((props , ref)=> {
                             </tr>
                             <tr>
                                 <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">SUBJECT</td>
-                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s1}</td>
+                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s2}</td>
                             </tr>
                             <tr>
                                 <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">SUBJECT</td>
-                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s1}</td>
+                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s3}</td>
                             </tr>
                             <tr>
                                 <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">SUBJECT</td>
-                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s1}</td>
+                                <td className="border-b border-slate-200 p-4 pl-8 text-slate-500">{result.s4}</td>
                             </tr>
                             <tr>
                                 <td className="border-t border-black p-4 pl-8 text-slate-700 font-bold">Total</td>

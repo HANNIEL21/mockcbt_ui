@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setError } from "../../redux/Features/Exam";
+import { clearState, setError } from "../../redux/Features/Exam";
 
 import { IoArrowBackOutline } from "react-icons/io5";
 
@@ -15,9 +15,15 @@ const Instruction = () => {
   );
   const { userDetails } = useSelector((state) => state.user);
 
+  console.log(questions, isError);
+
+  dispatch(clearState());
+  
+
   useEffect(() => {}, []);
 
   const handleClick = () => {
+    dispatch(setError(null));
     if (examDetails?.type === "EXAMINER") {
       if (questions.length === 0) {
         dispatch(setError("No question found for this exam"));

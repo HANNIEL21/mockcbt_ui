@@ -24,7 +24,7 @@ const Grade = () => {
 
   console.log(results);
 
-  const openModal = (modalName, rId, result) => {
+  const openModal = (modalName, rId, data) => {
     switch (modalName) {
       case "edit":
         setSelectedResultId(rId);
@@ -32,7 +32,7 @@ const Grade = () => {
         break;
       case "view":
         setSelectedResultId(rId);
-        setSelectedResult(result);
+        setSelectedResult(data);
         setIsOpenViewResultModal(true);
         break;
       case "delete":
@@ -100,46 +100,43 @@ const Grade = () => {
       grow: 2,
       cell: (row) => (
         <div key={row.id} className="flex gap-4">
-          <>
-            <button
-              onClick={() => {
-                openModal("view", row.id, row);
-              }}
-              className="border-2 border-blue-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdRemoveRedEye className="text-xl text-blue-700" />
-            </button>
+          <button
+            onClick={() => {
+              openModal("view", row.id, row);
+            }}
+            className="border-2 border-blue-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+          >
+            <MdRemoveRedEye className="text-xl text-blue-700" />
+          </button>
 
-            {isOpenViewResultModal && (
-              <ModalOverlay>
-                <ViewResult
-                  closeViewResultModal={() => closeModal("view")}
-                  result={row}
-                />
-              </ModalOverlay>
-            )}
-          </>
-          <>
-            <button
-              onClick={() => openModal("delete", row.id)}
-              className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdDelete className="text-xl text-red-700" />
-            </button>
+          {isOpenViewResultModal && (
+            <ModalOverlay>
+              <ViewResult
+                closeViewResultModal={() => closeModal("view")}
+                data={selectedResult}
+              />
+            </ModalOverlay>
+          )}
 
-            {isOpenDeleteResultModal && (
-              <ModalOverlay>
-                <DeleteResult
-                  closeDeleteResultModal={() => closeModal("delete")}
-                  rId={selectedResultId}
-                />
-              </ModalOverlay>
-            )}
-          </>
+          <button
+            onClick={() => openModal("delete", row.id, row)}
+            className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
+          >
+            <MdDelete className="text-xl text-red-700" />
+          </button>
+
+          {isOpenDeleteResultModal && (
+            <ModalOverlay>
+              <DeleteResult
+                closeDeleteResultModal={() => closeModal("delete")}
+                data={selectedResult}
+              />
+            </ModalOverlay>
+          )}
         </div>
       ),
     },
-  ];
+  ];  
 
   if (isPending) return <PageLoader />;
 
