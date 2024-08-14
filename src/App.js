@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Auth from "./pages/auth/Auth";
@@ -32,6 +32,12 @@ import LiveChat from "./components/LiveChat";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  useEffect(() => {
+    document.addEventListener("beforeunload", (e) => {
+      navigator.sendBeacon("http://localhost:3000", "data");
+    });
+  }, []);
 
   return (
     <div className="App">
