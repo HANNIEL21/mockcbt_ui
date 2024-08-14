@@ -5,8 +5,11 @@ import { baseApiUrl } from '../../../utils/constants';
 import { groups, gender } from '../../../engine_config';
 import Alert from '../../../components/Alert';
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
 
 const EditCandidate = ({ userId, closeEditCandidateModal }) => {
+    const {userDetails} = useSelector((state)=> state.user);
+    
     const [formData, setFormData] = useState({
         status: "",
         username: '',
@@ -65,6 +68,16 @@ const EditCandidate = ({ userId, closeEditCandidateModal }) => {
             const response = await axios.put(`${baseApiUrl}/candidate.php?id=${id}`, formData);
             if (response.status === 200 && response.data.status === "success") {
                 Alert("success", "Candidate update was successful");
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Edit Candidate"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
                 closeEditCandidateModal();
             } else {
                 Alert("error", "Failed to update candidate");

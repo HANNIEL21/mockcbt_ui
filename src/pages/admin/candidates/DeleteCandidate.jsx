@@ -1,18 +1,30 @@
 import React from 'react';
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { baseApiUrl } from '../../../utils/constants';
 
 const DeleteCandidate = ({ closeDeleteCandidateModal, userId }) => {
+    const {userDetails} = useSelector((state)=> state.user);
 
     const handleDelete = async (id) => {
         try {
-            console.log(id);      
+            console.log(id);
             // Send a DELETE request to your backend endpoint with the user ID
             const response = await axios.delete(`${baseApiUrl}/candidate.php?id=${id}`);
             if (response.status === 200) {
                 // User deleted successfully
                 console.log(response.data);
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Delete Candidate"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
             } else {
                 // Failed to delete user
                 console.error('Failed to delete candidate:', response.statusText);
@@ -44,7 +56,7 @@ const DeleteCandidate = ({ closeDeleteCandidateModal, userId }) => {
                 </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" onClick={()=>handleDelete(userId)} className="mt-3 ms-3 w-full inline-flex justify-center rounded-md border border-red-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-red-700 hover:bg-red-300 focus:outline-none  sm:mt-0 sm:w-auto sm:text-sm">
+                <button type="button" onClick={() => handleDelete(userId)} className="mt-3 ms-3 w-full inline-flex justify-center rounded-md border border-red-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-red-700 hover:bg-red-300 focus:outline-none  sm:mt-0 sm:w-auto sm:text-sm">
                     Delete
                 </button>
 

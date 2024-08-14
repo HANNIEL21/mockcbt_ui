@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from "react-redux"
 import { MdOutlineAdd } from 'react-icons/md';
 import { baseApiUrl } from '../../../utils/constants';
-import { groups, faculty, department, states, role, gender } from '../../../engine_config';
+import { groups, role, gender } from '../../../engine_config';
 
 const AddCandidate = ({ closeAddCandidateModal }) => {
+    const { userDetails } = useSelector((state => state.user));
+
     const [formData, setFormData] = useState({
         exam: "",
         firstname: '',
@@ -34,6 +37,17 @@ const AddCandidate = ({ closeAddCandidateModal }) => {
 
             if (response.status === 200) {
                 console.log('User saved successfully');
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Add Candidate"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
+
                 closeAddCandidateModal();
             } else {
                 console.error('Failed to save user:', response.statusText);
@@ -148,7 +162,7 @@ const AddCandidate = ({ closeAddCandidateModal }) => {
                                 >
                                     <option value="">ROLE</option>
                                     {role.map((item) => (<option value={item}>{item}</option>))}
-                                    
+
                                 </select>
                             </div>
                             <div className="w-full">

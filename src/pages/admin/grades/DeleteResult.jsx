@@ -6,6 +6,8 @@ import Alert from '../../../components/Alert';
 
 const DeleteResult = ({ closeDeleteResultModal, rId }) => {
 
+    console.log(rId);
+
     const handleDelete = async (id) => {
         try {
             console.log(id);

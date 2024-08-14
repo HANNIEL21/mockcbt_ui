@@ -4,8 +4,10 @@ import { MdEdit } from 'react-icons/md';
 import { baseApiUrl } from '../../../utils/constants';
 import Alert from '../../../components/Alert';
 import { FaToggleOff, FaToggleOn } from "react-icons/fa6";
+import { useSelector } from 'react-redux';
 
 const EditUser = ({ userId, closeEditUserModal }) => {
+    const {userDetails} = useSelector((state) =>state.user);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -64,6 +66,16 @@ const EditUser = ({ userId, closeEditUserModal }) => {
                 if (response.data.status === "success") {
                     Alert("success", "User update was successful");
                 }
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Edit User"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
                 closeEditUserModal();
             } else {
                 Alert("error", "Failed to update user");
@@ -94,7 +106,7 @@ const EditUser = ({ userId, closeEditUserModal }) => {
                             <MdEdit className='text-green-500 text-md' />
                         </div>
                         <div className='w-full flex justify-between'>
-                            <h3 className="text-lg mt-2 leading-6 text-green-500 font-extrabold uppercase" id="modal-title">Edit Candidate</h3>
+                            <h3 className="text-lg mt-2 leading-6 text-green-500 font-extrabold uppercase" id="modal-title">Edit User</h3>
                             <button className='shadow-md px-2 rounded-md' onClick={handleStatusUpdate}>
                                 {formData?.status === "INACTIVE" ? (
                                     <FaToggleOff className='text-3xl text-red-500' />

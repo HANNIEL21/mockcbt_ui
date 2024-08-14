@@ -44,19 +44,30 @@ const Sidebar = () => {
     dispatch(setSelected(link));
   }
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     const username = userDetails?.username;
     const res = await axios.put(`${baseApiUrl}/login.php`, {
       username,
     });
     console.log(res);
-    if(res.data.status === "success"){
+    if (res.data.status === "success") {
       dispatch(logout());
       Alert(res.data.status, res.data.message);
       navigate("/");
 
+      try {
+        const log = {
+          user: username,
+          event: "LOGOUT"
+        }
+        const event = await axios.post(`${baseApiUrl}/log.php`, log);
+        console.log(event.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+      
     }
-    
+
     return;
   }
 
@@ -103,15 +114,15 @@ const Sidebar = () => {
       icon: <BsFileEarmarkText />,
       activeIcon: <BsFileEarmarkTextFill className="text-xl" />,
     },
-    // {
-    //   id: 7,
-    //   text: "Token",
-    //   to: "/dashboard/token",
-    //   icon: <IoKeyOutline />,
-    //   activeIcon: <IoKey className="text-xl" />,
-    // },
     {
       id: 7,
+      text: "LOG",
+      to: "/dashboard/log",
+      icon: <IoKeyOutline />,
+      activeIcon: <IoKey className="text-xl" />,
+    },
+    {
+      id: 8,
       text: "Settings",
       to: "/dashboard/settings",
       icon: <RiSettings5Line />,

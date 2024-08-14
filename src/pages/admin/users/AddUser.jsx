@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { MdOutlineAdd  } from 'react-icons/md';
+import { MdOutlineAdd } from 'react-icons/md';
 import { baseApiUrl } from '../../../utils/constants';
+import { useSelector } from 'react-redux';
 
 const AddUser = ({ closeAddUserModal }) => {
+    const {userDetails} = useSelector((state)=>state.user);
     const [formData, setFormData] = useState({
         password: '',
         firstname: '',
         lastname: '',
-        role: ''
+        role: 'ADMIN'
     });
 
     const handleChange = (e) => {
@@ -26,6 +28,18 @@ const AddUser = ({ closeAddUserModal }) => {
 
             if (response.status === 200) {
                 console.log('User saved successfully');
+
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Add User"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
+
                 closeAddUserModal();
             } else {
                 console.error('Failed to save user:', response.statusText);
@@ -40,13 +54,11 @@ const AddUser = ({ closeAddUserModal }) => {
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <MdOutlineAdd  className='text-green-500 text-base' />
+                        <MdOutlineAdd className='text-green-500 text-base' />
                     </div>
                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <h3 className="text-lg mt-2 leading-6 font-medium text-gray-900" id="modal-title">Add User</h3>
                         <form className="grid grid-cols-2 sm:grid-cols-2 gap-4 mt-3">
-                            
-                            
                             <div className="w-full">
                                 <input
                                     type="text"
@@ -77,22 +89,7 @@ const AddUser = ({ closeAddUserModal }) => {
                                     onChange={handleChange}
                                 />
                             </div>
-                            <div className="w-full">
-                                <label htmlFor="role" className="sr-only">User Group</label>
-                                <select
-                                    name="role"
-                                    id="role"
-                                    className="shadow-sm focus:border-blue-500 block w-full sm:text-sm p-2 border-gray-300 rounded-md"
-                                    onChange={handleChange}
-                                >
-                                    <option value="">User Role</option>
-                                    <option value="ADMIN">ADMIN</option>
-                                    <option value="EXAMINER">EXAMINER</option>
-                                    <option value="USER">USER</option>
-                                </select>
-                            </div>
                         </form>
-
                     </div>
                 </div>
             </div>

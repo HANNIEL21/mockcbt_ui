@@ -36,6 +36,17 @@ const Auth = () => {
         const userRole = response.data?.data?.role;
         const userstatus = response.data.status;
 
+        try {
+          const log = {
+            user: response.data?.data?.username,
+            event: "LOGIN"
+          }
+          const event = await axios.post(`${baseApiUrl}/log.php`, log);
+          console.log(event.data);
+        } catch (error) {
+          console.log(error.message);
+        }
+
         console.log("User role:", userRole);
 
         if (userRole === "SA" || userRole === "ADMIN") {
