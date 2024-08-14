@@ -119,7 +119,7 @@ const Grade = () => {
           )}
 
           <button
-            onClick={() => openModal("delete", row.id, row)}
+            onClick={() => openModal("delete", row.id)}
             className="border-2 border-red-700 hover:bg-red-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
           >
             <MdDelete className="text-xl text-red-700" />
@@ -129,7 +129,7 @@ const Grade = () => {
             <ModalOverlay>
               <DeleteResult
                 closeDeleteResultModal={() => closeModal("delete")}
-                data={selectedResult}
+                rId={selectedResultId}
               />
             </ModalOverlay>
           )}

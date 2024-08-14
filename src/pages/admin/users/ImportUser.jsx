@@ -1,12 +1,13 @@
 import React from 'react';
-import axios from "axios"; 
+import axios from "axios";
 import { FaFileCsv } from "react-icons/fa6";
 import { read, utils } from 'xlsx';
 import { baseApiUrl } from '../../../utils/constants';
 import Alert from '../../../components/Alert';
+import { useSelector } from 'react-redux';
 
 const ImportUser = ({ closeImportUserModal }) => {
-
+    const { userDetails } = useSelector((state) => state.user);
 
     const handleImport = (event) => {
         const reader = new FileReader();
@@ -19,7 +20,7 @@ const ImportUser = ({ closeImportUserModal }) => {
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
             const json = utils.sheet_to_json(worksheet);
-    
+
             try {
                 // Use Promise.all() to perform all axios POST requests concurrently
                 const promises = json.map(async (question) => {
@@ -28,6 +29,16 @@ const ImportUser = ({ closeImportUserModal }) => {
                 });
                 await Promise.all(promises);
                 Alert("success", `All ${json.length} users imported successfully`);
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Import User"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
                 closeImportUserModal();
             } catch (error) {
                 console.log("Error importing candidates:", error);
@@ -36,16 +47,7 @@ const ImportUser = ({ closeImportUserModal }) => {
         };
     };
 
-    // const handleExport = () => {
-    //     const headings = [["ID", "USERNAME", "FIRSTNAME", "LASTNAME", "EXAM NO", "SEAT NO"]];
-    //     const wb = utils.book_new();
-    //     const ws = utils.json_to_sheet([]);
-    //     utils.sheet_add_aoa(ws, headings);
-    //     utils.sheet_add_json(ws, candidates, { origin: "A2", skipHeader: true });
-    //     utils.book_append_sheet(wb, ws, "Result");
-    //     writeFile(wb, "Result.xlsx");
 
-    // }
     return (
         <div>
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">

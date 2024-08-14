@@ -27,6 +27,7 @@ import AddToken from "./pages/auth/AddToken";
 import Token from "./pages/admin/token/Token";
 import Subject from "./pages/users/Subject";
 import Review from "./pages/users/Review";
+import Log from "./pages/admin/log/Log";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
@@ -50,6 +51,7 @@ function App() {
             <Route path="exam-bank" element={<ExamBank />} />
             <Route path="results" element={<Grade />} />
             <Route path="token" element={<Token />} />
+            <Route path="log" element={<Log />} />
             <Route path="settings" element={<Settings />}>
               <Route index element={<General />} />
               <Route path="faculty" element={<Faculty />} />

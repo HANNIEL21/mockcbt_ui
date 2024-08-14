@@ -3,8 +3,10 @@ import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import { baseApiUrl } from '../../../utils/constants';
 import Alert from '../../../components/Alert';
+import { useSelector } from 'react-redux';
 
 const DeleteUser = ({ closeDeleteUserModal, userId }) => {
+    const {userDetails} = useSelector((state)=> state.user);
 
     const handleDelete = async (id) => {
         try {
@@ -14,6 +16,16 @@ const DeleteUser = ({ closeDeleteUserModal, userId }) => {
             if (response.status === 200) {
                 // User deleted successfully
                 console.log(response.data);
+                try {
+                    const log = {
+                        user: userDetails?.username,
+                        event: "Delete User"
+                    }
+                    const event = await axios.post(`${baseApiUrl}/log.php`, log);
+                    console.log(event.data);
+                } catch (error) {
+                    console.log(error.message);
+                }
             } else {
                 // Failed to delete user
                 Alert("error", "Failed to delete user");

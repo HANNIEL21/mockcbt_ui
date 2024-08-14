@@ -175,7 +175,7 @@ const Subject = () => {
             </div>
             <div className='w-[50%] h-[350px] p-4 gap-10 flex justify-between items-center flex-col text-center'>
                 <h1 className='text-6xl font-extrabold text-blue-900 uppercase'>{appName}</h1>
-                <p>Selcet Subject Combination to Proceed</p>
+                <p>Select Subject Combination to Proceed</p>
 
 
                 <form action="" className='w-full flex flex-col gap-3'>
