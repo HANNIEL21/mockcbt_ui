@@ -28,12 +28,14 @@ import Token from "./pages/admin/token/Token";
 import Subject from "./pages/users/Subject";
 import Review from "./pages/users/Review";
 import Log from "./pages/admin/log/Log";
+import LiveChat from "./components/LiveChat";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   return (
     <div className="App">
+      <LiveChat />
       <Router>
         <Routes>
           <Route path="/" element={<Auth />} />

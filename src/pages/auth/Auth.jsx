@@ -11,6 +11,7 @@ import {
   setIsAuthenticatedTrue,
 } from "../../redux/Features/Auth";
 import { baseApiUrl, appName } from "../../utils/constants";
+import LiveChat from "../../components/LiveChat";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -61,8 +62,7 @@ const Auth = () => {
       } else {
         dispatch(setError(response.data.message));
         return;
-       }
-
+      }
     } catch (error) {
       if (error.response) {
         // Request was made and server responded with a status code that falls out of the range of 2xx
@@ -81,42 +81,45 @@ const Auth = () => {
   };
 
   return (
-    <main className="h-screen w-screen bg-gray-200 flex justify-center items-center">
-      <div className="w-2/4 h-full bg-white flex justify-center items-center">
-        <img src={logo} alt="rsu logo" className="w-[50%] h-[40%]" />
-      </div>
-      <div className="w-3/4 flex justify-center items-center">
-        <div className="w-[50%] h-[350px] p-4 flex justify-between items-center flex-col text-center">
-          <h1 className="text-6xl font-extrabold text-blue-900 uppercase">
-            {appName}
-          </h1>
-          <input
-            type="text"
-            placeholder="Reg Number"
-            className="w-[80%] bg-transparent border-2 outline-none focus:outline-blue-900 rounded-md p-3 text-lg font-bold text-blue-900 shadow-md"
-            // value={username}
-            onChange={(e) => {
-              dispatch(setUsername(e.target.value));
-            }}
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleLogin();
-              }
-            }}
-          />
-          <button
-            className=" block w-[70%] border-2 rounded-md border-blue-900 hover:bg-blue-900 font-extrabold text-xl hover:text-white text-blue-900 px-10 py-2 shadow-md"
-            onClick={handleLogin}
-          >
-            LOGIN
-          </button>
-          {/* Display login error message */}
-          {isError && <p className="text-red-500">{error}</p>}
-          {/* <Link to="/signup" className='font-bold text-blue-900'>Create Account</Link> */}
+    <>
+      <main className="h-screen w-screen bg-gray-200 flex justify-center items-center">
+        <div className="w-2/4 h-full bg-white flex justify-center items-center">
+          <img src={logo} alt="rsu logo" className="w-[50%] h-[40%]" />
         </div>
-      </div>
-    </main>
+        <div className="w-3/4 flex justify-center items-center">
+          <div className="w-[50%] h-[350px] p-4 flex justify-between items-center flex-col text-center">
+            <h1 className="text-6xl font-extrabold text-blue-900 uppercase">
+              {appName}
+            </h1>
+            <input
+              type="text"
+              placeholder="Reg Number"
+              className="w-[80%] bg-transparent border-2 outline-none focus:outline-blue-900 rounded-md p-3 text-lg font-bold text-blue-900 shadow-md"
+              // value={username}
+              onChange={(e) => {
+                dispatch(setUsername(e.target.value));
+              }}
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLogin();
+                }
+              }}
+            />
+            <button
+              className=" block w-[70%] border-2 rounded-md border-blue-900 hover:bg-blue-900 font-extrabold text-xl hover:text-white text-blue-900 px-10 py-2 shadow-md"
+              onClick={handleLogin}
+            >
+              LOGIN
+            </button>
+            {/* Display login error message */}
+            {isError && <p className="text-red-500">{error}</p>}
+            {/* <Link to="/signup" className='font-bold text-blue-900'>Create Account</Link> */}
+          </div>
+        </div>
+      </main>
+      <LiveChat />
+    </>
   );
 };
 
