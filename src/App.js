@@ -38,53 +38,51 @@ function App() {
   const userDetails = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const handleLogout = async () => {
-      const username = userDetails?.role === "USER" ? userDetails?.examno : userDetails?.username;
-      try {
-        const res = await axios.put(`${baseApiUrl}/login.php`, { username });
-        console.log(res);
-  
-        if (res.data.status === "success") {
-          dispatch(logout());
-          Alert(res.data.status, res.data.message);
-  
-          // Log the event
-          const log = {
-            user: username,
-            event: "LOGOUT"
-          };
-          const event = await axios.post(`${baseApiUrl}/log.php`, log);
-          console.log(event.data);
-  
-          // Close the browser after 2 seconds
-          setTimeout(() => {
-            window.close(); // Closes the browser window/tab
-          }, 6000);
-        }
-      } catch (error) {
-        console.log(error.message);
+  const handleLogout = async () => {
+    const username = userDetails?.role === "USER" ? userDetails?.examno : userDetails?.username;
+    try {
+      const res = await axios.put(`${baseApiUrl}/login.php`, { username });
+      console.log(res);
+
+      if (res.data.status === "success") {
+        dispatch(logout());
+        Alert(res.data.status, res.data.message);
+
+        // Log the event
+        const log = {
+          user: username,
+          event: "LOGOUT"
+        };
+        const event = await axios.post(`${baseApiUrl}/log.php`, log);
+        console.log(event.data);
+
+        // Close the browser after 2 seconds
+        setTimeout(() => {
+          window.close(); // Closes the browser window/tab
+        }, 6000);
       }
-    };
-  
-    const onClose = () => {
-      window.addEventListener("beforeunload", (e) => {
-        e.preventDefault();
-        handleLogout();
-      });
-    };
-  
-    onClose();
-  }, [userDetails, dispatch]);
-  
-  
-  
+    } catch (error) {
+      console.log(error.message);
+    }
+  };  
+
+  const onClose = () => {
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      handleLogout();
+    });
+  };
+
+  const setSession = () => {
+    const timeout = 30 * 60 * 1000; // 30 minutes in milliseconds
+    const expirationTime = Date.now() + timeout; // Current time + 30 minutes
+    sessionStorage.setItem("timeout", expirationTime.toString());
+  };
 
   useEffect(() => {
-    document.addEventListener("beforeunload", (e) => {
-      navigator.sendBeacon("http://localhost:3000", "data");
-    });
-  }, []);
+    setSession();
+    onClose();
+  }, [userDetails, dispatch]);
 
   return (
     <div className="App">
