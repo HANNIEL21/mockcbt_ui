@@ -1,82 +1,66 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/rsu-logo.png";
-import { setUserDetails } from "../../redux/Features/User";
-import {
-  clearAuthState,
-  setUsername,
-  setError,
-  setIsAuthenticatedTrue,
-} from "../../redux/Features/Auth";
+import { logout, setUserDetails } from "../../redux/Features/User";
 import { baseApiUrl, appName } from "../../utils/constants";
 import LiveChat from "../../components/LiveChat";
+import Alert from "../../components/Alert";
 
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user, error, isError } = useSelector((state) => state.auth);
-  const username = user.username;
+  const [regNumber, setRegNumber] = useState("");
 
   useEffect(() => {
-    dispatch(clearAuthState());
-    console.log(user);
+    dispatch(logout());
   }, [dispatch]);
 
   const handleLogin = async () => {
+    if (!regNumber.trim()) {
+      return Alert("error", "Please enter your registration number");
+    }
+
     try {
       const response = await axios.post(`${baseApiUrl}/login.php`, {
-        username,
+        username: regNumber,
       });
-      console.log("User details:", response.data);
-      if (response.data.status === "success") {
-        dispatch(setUserDetails(response.data?.data));
 
-        const userRole = response.data?.data?.role;
-        const userstatus = response.data.status;
+      if (response.data.status !== "success") {
+        return Alert("error", response.data.message);
+      }
 
-        try {
-          const log = {
-            user: response.data?.data?.username,
-            event: "LOGIN"
-          }
-          const event = await axios.post(`${baseApiUrl}/log.php`, log);
-          console.log(event.data);
-        } catch (error) {
-          console.log(error.message);
-        }
+      dispatch(setUserDetails(response.data?.data));
 
-        console.log("User role:", userRole);
+      const userRole = response.data?.data?.role;
 
-        if (userRole === "SA" || userRole === "ADMIN") {
-          navigate("/password");
-        } else if (userRole === "USER") {
-          dispatch(setIsAuthenticatedTrue());
-          navigate("/candidate", {
-            replace: true,
-          });
-        } else {
-          throw new Error("Invalid user credential");
-        }
-      } else {
-        dispatch(setError(response.data.message));
-        return;
+      try {
+        const log = {
+          user: response.data?.data?.username,
+          event: "LOGIN",
+        };
+        const event = await axios.post(`${baseApiUrl}/log.php`, log);
+        console.log(event.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+
+      if (userRole === "SA" || userRole === "ADMIN") {
+        return navigate("/password");
+      }
+
+      if (userRole === "USER") {
+        return navigate("/candidate", {
+          replace: true,
+        });
       }
     } catch (error) {
-      if (error.response) {
-        // Request was made and server responded with a status code that falls out of the range of 2xx
-        console.error("Error message:", error.response.data.message);
-        dispatch(setError(error.response.data.message));
-      } else if (error.request) {
-        // Request was made but no response was received
-        console.error("No response received:", error.request);
-        dispatch(setError("No response received from the server"));
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error("Request setup error:", error.message);
-        dispatch(setError(error.message));
-      }
+      Alert(
+        "error",
+        error.response?.data?.message || error?.message || "Failed to login"
+      );
     }
   };
 
@@ -96,15 +80,14 @@ const Auth = () => {
               placeholder="Reg Number"
               className="w-[80%] bg-transparent border-2 outline-none focus:outline-blue-900 rounded-md p-3 text-lg font-bold text-blue-900 shadow-md"
               // value={username}
-              onChange={(e) => {
-                dispatch(setUsername(e.target.value));
-              }}
+              onChange={(e) => setRegNumber(e.target.value)}
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   handleLogin();
                 }
               }}
+              value={regNumber}
             />
             <button
               className=" block w-[70%] border-2 rounded-md border-blue-900 hover:bg-blue-900 font-extrabold text-xl hover:text-white text-blue-900 px-10 py-2 shadow-md"

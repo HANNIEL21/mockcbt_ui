@@ -1,8 +1,7 @@
-import react from 'react';
-import React from 'react';
-import { MdFilterList } from "react-icons/md";
+import react from "react";
+import React from "react";
 
-const Filter = ({ onFilter, filter, filterText,  }) => {
+const Filter = ({ onFilter, filter, filterText }) => {
   const [isActive, setIsActive] = react.useState(false);
 
   const toggleMenu = () => {
