@@ -28,15 +28,14 @@ import Subject from "./pages/users/Subject";
 import Review from "./pages/users/Review";
 import Log from "./pages/admin/log/Log";
 import LiveChat from "./components/LiveChat";
-import { logout } from "./redux/Features/Auth";
-import Alert from "./components/Alert";
-import { baseApiUrl } from "./utils/constants";
-import axios from "axios";
+import UserLayout from "./pages/users/UserLayout";
+import { logout } from "./redux/Features/User";
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const userDetails = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  // const username = (user.role = "USER" ? user?.examno : user?.username);
 
   const handleLogout = async () => {
     const username = userDetails?.role === "USER" ? userDetails?.examno : userDetails?.username;
@@ -92,10 +91,7 @@ function App() {
           <Route path="/" element={<Auth />} />
           <Route path="/token" element={<AddToken />} />
           <Route path="/password" element={<Password />} />
-          <Route
-            path="/dashboard/*"
-            element={isAuthenticated ? <DashboardLayout /> : <Auth />}
-          >
+          <Route path="/dashboard/*" element={<DashboardLayout />}>
             <Route index element={<Overview />} />
             <Route path="users" element={<Users />} />
             <Route path="candidates" element={<Candidate />} />
@@ -114,30 +110,15 @@ function App() {
               <Route path="group" element={<Group />} />
             </Route>
           </Route>
-          <Route
-            path="/select"
-            element={isAuthenticated ? <Subject /> : <Auth />}
-          />
-          <Route
-            path="/candidate"
-            element={isAuthenticated ? <Details /> : <Auth />}
-          />
-          <Route
-            path="/examiner/:id"
-            element={isAuthenticated ? <Examiner /> : <Auth />}
-          />
-          <Route
-            path="/instruction/:id"
-            element={isAuthenticated ? <Instruction /> : <Auth />}
-          />
-          <Route
-            path="/result"
-            element={isAuthenticated ? <CandidateResult /> : <Auth />}
-          />
-          <Route
-            path="/review"
-            element={isAuthenticated ? <Review /> : <Auth />}
-          />
+          <Route element={<UserLayout />}>
+            <Route path="/select" element={<Subject />} />
+            <Route path="/candidate" element={<Details />} />
+            <Route path="/examiner/:id" element={<Examiner />} />
+            <Route path="/instruction/:id" element={<Instruction />} />
+            <Route path="/result" element={<CandidateResult />} />
+            <Route path="/review" element={<Review />} />
+          </Route>
+
           <Route
             path="*"
             element={

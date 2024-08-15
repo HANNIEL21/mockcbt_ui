@@ -19,12 +19,11 @@ import { PiUsers, PiUsersFill } from "react-icons/pi";
 import { RiSettings5Fill, RiSettings5Line } from "react-icons/ri";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi2";
 import { IoKey, IoKeyOutline } from "react-icons/io5";
-import { logout } from "../redux/Features/Auth";
 import { setSelected } from "../redux/Features/Tabs";
+import { logout } from "../redux/Features/User";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { tab } = useSelector((state) => state.tab);
@@ -45,31 +44,8 @@ const Sidebar = () => {
   }
 
   const handleLogout = async () => {
-    const username = userDetails?.username;
-    const res = await axios.put(`${baseApiUrl}/login.php`, {
-      username,
-    });
-    console.log(res);
-    if (res.data.status === "success") {
-      dispatch(logout());
-      Alert(res.data.status, res.data.message);
-      navigate("/");
-
-      try {
-        const log = {
-          user: username,
-          event: "LOGOUT"
-        }
-        const event = await axios.post(`${baseApiUrl}/log.php`, log);
-        console.log(event.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-      
-    }
-
-    return;
-  }
+    dispatch(logout());
+  };
 
   const sa = [
     {
@@ -186,37 +162,39 @@ const Sidebar = () => {
         <ul className="flex h-[450px] flex-col justify-center gap-1 overflow-x-hidden px-2 overflow-y-auto">
           {userDetails?.role === "SA"
             ? sa.map((link) => (
-              <li key={link.id}>
-                <Link
-                  onClick={() => handleLinkClick(link.to)}
-                  to={link.to}
-                  className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${link.to === selected
-                    ? "text-blue-900 bg-slate-100 shadow-md"
-                    : "text-gray-400"
-                    }`}
-                >
-                  {link.to === selected ? link.activeIcon : link.icon}
-                  {link.text}
-                </Link>
-              </li>
-            ))
-            : userDetails?.role === "ADMIN"
-              ? admin.map((link) => (
                 <li key={link.id}>
                   <Link
                     onClick={() => handleLinkClick(link.to)}
                     to={link.to}
-                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${link.to === selected
-                      ? "text-blue-900 bg-slate-100 shadow-md"
-                      : "text-gray-400"
-                      }`}
+                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${
+                      link.to === selected
+                        ? "text-blue-900 bg-slate-100 shadow-md"
+                        : "text-gray-400"
+                    }`}
                   >
                     {link.to === selected ? link.activeIcon : link.icon}
                     {link.text}
                   </Link>
                 </li>
               ))
-              : null}
+            : userDetails?.role === "ADMIN"
+            ? admin.map((link) => (
+                <li key={link.id}>
+                  <Link
+                    onClick={() => handleLinkClick(link.to)}
+                    to={link.to}
+                    className={`flex items-center gap-3 w-full capitalize font-bold text-left px-4 py-2 rounded-md focus:outline-none ${
+                      link.to === selected
+                        ? "text-blue-900 bg-slate-100 shadow-md"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {link.to === selected ? link.activeIcon : link.icon}
+                    {link.text}
+                  </Link>
+                </li>
+              ))
+            : null}
         </ul>
       </nav>
       <nav className="w-full">

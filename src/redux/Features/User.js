@@ -1,4 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { baseApiUrl } from "../../utils/constants";
+import Alert from "../../components/Alert";
 
 const initialState = {
   user: {
@@ -21,9 +24,39 @@ const initialState = {
   token: null,
 };
 
+export const logout = createAsyncThunk("logout", async (_, { getState }) => {
+  const user = getState().user.userDetails;
+
+  const username = user.role === "USER" ? user?.examno : user?.username;
+
+  if (!username) return;
+
+  try {
+    await axios.post(`${baseApiUrl}/logout.php`, { username });
+  } catch (error) {
+    Alert(
+      "error",
+      error.response?.data?.message || error?.message || "Failed to logout"
+    );
+  }
+
+  const log = {
+    user: user.username,
+    event: "LOGOUT",
+  };
+  await axios.post(`${baseApiUrl}/log.php`, log);
+});
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
+  extraReducers: (builder) => {
+    builder.addCase(logout.fulfilled, (state) => {
+      state.user = { ...initialState.user };
+      state.userDetails = null;
+    });
+  },
+
   reducers: {
     clearUserState: (state) => {
       state.isError = false;
@@ -80,10 +113,6 @@ export const userSlice = createSlice({
     setUserDetails: (state, { payload }) => {
       state.userDetails = payload;
     },
-    Logout: (state) => {
-      state.user = {};
-      state.userDetails = null;
-    },
   },
 });
 
@@ -104,7 +133,6 @@ export const {
   updateUserDetails,
   setLoadingForOperation,
   setUserDetails,
-  Logout,
 } = userSlice.actions;
 
 export default userSlice.reducer;
