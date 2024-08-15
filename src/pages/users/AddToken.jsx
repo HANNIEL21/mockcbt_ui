@@ -54,15 +54,7 @@ const AddToken = ({ closeModal, user }) => {
             console.log(formData);
             // Save the token
             const res = await axios.put(`${baseApiUrl}/token.php?id=${formData.token}`, formData);
-            // debugger;
-            // console.log(res)
-            // if (res.status !== 200)  {
-            //     console.log("I RAN")
-            //     Alert(res.data.status, res.data.message);
-            //     console.error('Failed to save token:', res.statusText);
-            //     closeModal();
-            //     return
-            // }
+            
 
                 Alert(res.data.status, res.data.message);
                 const response = await axios.post(`${baseApiUrl}/login.php`, { username: user });

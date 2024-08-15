@@ -80,6 +80,12 @@ function App() {
   
   
 
+  useEffect(() => {
+    document.addEventListener("beforeunload", (e) => {
+      navigator.sendBeacon("http://localhost:3000", "data");
+    });
+  }, []);
+
   return (
     <div className="App">
       <LiveChat />
