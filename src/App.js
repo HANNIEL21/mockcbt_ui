@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Auth from "./pages/auth/Auth";
 import DashboardLayout from "./pages/admin/dashboardLayout";
 import Overview from "./pages/admin/Overview";
@@ -22,16 +22,63 @@ import Department from "./pages/admin/config/department/Department";
 import Courses from "./pages/admin/config/course/Courses";
 import Result from "./pages/admin/config/Result";
 import General from "./pages/admin/config/General";
-import Signup from "./pages/auth/Signup";
 import AddToken from "./pages/auth/AddToken";
 import Token from "./pages/admin/token/Token";
 import Subject from "./pages/users/Subject";
 import Review from "./pages/users/Review";
 import Log from "./pages/admin/log/Log";
 import LiveChat from "./components/LiveChat";
+import { logout } from "./redux/Features/Auth";
+import Alert from "./components/Alert";
+import { baseApiUrl } from "./utils/constants";
+import axios from "axios";
 
 function App() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleLogout = async () => {
+      const username = userDetails?.role === "USER" ? userDetails?.examno : userDetails?.username;
+      try {
+        const res = await axios.put(`${baseApiUrl}/login.php`, { username });
+        console.log(res);
+  
+        if (res.data.status === "success") {
+          dispatch(logout());
+          Alert(res.data.status, res.data.message);
+  
+          // Log the event
+          const log = {
+            user: username,
+            event: "LOGOUT"
+          };
+          const event = await axios.post(`${baseApiUrl}/log.php`, log);
+          console.log(event.data);
+  
+          // Close the browser after 2 seconds
+          setTimeout(() => {
+            window.close(); // Closes the browser window/tab
+          }, 6000);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+  
+    const onClose = () => {
+      window.addEventListener("beforeunload", (e) => {
+        e.preventDefault();
+        handleLogout();
+      });
+    };
+  
+    onClose();
+  }, [userDetails, dispatch]);
+  
+  
+  
 
   return (
     <div className="App">
@@ -39,7 +86,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Auth />} />
-          <Route path="/signup" element={<Signup />} />
           <Route path="/token" element={<AddToken />} />
           <Route path="/password" element={<Password />} />
           <Route
