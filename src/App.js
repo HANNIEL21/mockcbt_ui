@@ -30,39 +30,13 @@ import Log from "./pages/admin/log/Log";
 import LiveChat from "./components/LiveChat";
 import UserLayout from "./pages/users/UserLayout";
 import { logout } from "./redux/Features/User";
+import Feedback from "./pages/admin/feedback/Feedback";
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
 
-  // const username = (user.role = "USER" ? user?.examno : user?.username);
-
-  const handleLogout = async () => {
-    const username = userDetails?.role === "USER" ? userDetails?.examno : userDetails?.username;
-    try {
-      const res = await axios.put(`${baseApiUrl}/login.php`, { username });
-      console.log(res);
-
-      if (res.data.status === "success") {
-        dispatch(logout());
-        Alert(res.data.status, res.data.message);
-
-        // Log the event
-        const log = {
-          user: username,
-          event: "LOGOUT"
-        };
-        const event = await axios.post(`${baseApiUrl}/log.php`, log);
-        console.log(event.data);
-
-        // Close the browser after 2 seconds
-        setTimeout(() => {
-          window.close(); // Closes the browser window/tab
-        }, 6000);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+  const handleLogout = () => {
+    dispatch(logout());
   };  
 
   const onClose = () => {
@@ -81,7 +55,7 @@ function App() {
   useEffect(() => {
     setSession();
     onClose();
-  }, [userDetails, dispatch]);
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -96,6 +70,7 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="candidates" element={<Candidate />} />
             <Route path="exams" element={<Exams />} />
+            <Route path="feedback" element={<Feedback />} />
             <Route path="exam-bank" element={<ExamBank />} />
             <Route path="results" element={<Grade />} />
             <Route path="token" element={<Token />} />

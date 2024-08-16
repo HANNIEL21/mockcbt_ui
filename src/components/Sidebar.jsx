@@ -16,7 +16,7 @@ import {
   BsBriefcaseFill,
 } from "react-icons/bs";
 import { PiUsers, PiUsersFill } from "react-icons/pi";
-import { RiSettings5Fill, RiSettings5Line } from "react-icons/ri";
+import { RiSettings5Fill, RiSettings5Line, RiFeedbackFill , RiFeedbackLine  } from "react-icons/ri";
 import { HiOutlineUserGroup, HiUserGroup } from "react-icons/hi2";
 import { IoKey, IoKeyOutline } from "react-icons/io5";
 import { setSelected } from "../redux/Features/Tabs";
@@ -92,13 +92,20 @@ const Sidebar = () => {
     },
     {
       id: 7,
-      text: "LOG",
+      text: "Log",
       to: "/dashboard/log",
       icon: <IoKeyOutline />,
       activeIcon: <IoKey className="text-xl" />,
     },
     {
       id: 8,
+      text: "Feedback",
+      to: "/dashboard/feedback",
+      icon: <RiFeedbackLine  />,
+      activeIcon: <RiFeedbackFill className="text-xl" />,
+    },
+    {
+      id: 9,
       text: "Settings",
       to: "/dashboard/settings",
       icon: <RiSettings5Line />,

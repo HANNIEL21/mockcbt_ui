@@ -9,6 +9,7 @@ const initialState = {
     tokens: [],
     candidates: [],
     faculties: [],
+    feedback: [],
     departments: [],
     courses: [],
     isLoading: true,
@@ -27,6 +28,7 @@ export const dashboardSlice = createSlice({
             state.questions = [];
             state.candidates = [];
             state.faculties = [];
+            state.feedback = [];
             state.departments = [];
             state.courses = [];
             return state;
@@ -51,6 +53,9 @@ export const dashboardSlice = createSlice({
         },
         setFaculties: (state, { payload }) => {
             state.faculties = payload;
+        },
+        setFeedback: (state, { payload }) => {
+            state.feedback = payload;
         },
         setDepartments: (state, { payload }) => {
             state.departments = payload;
@@ -77,6 +82,7 @@ export const {
     setTokens,
     setDepartments,
     setFaculties,
+    setFeedback,
     setResults,
     isLoadingFalse,
     isLoadingTrue
