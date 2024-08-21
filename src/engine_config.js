@@ -122,6 +122,8 @@ export const subjects = [
     "BIOLOGY",
     "ECONOMICS",
     "GEOGRAPHY",
+    "LITERATURE",
+    "GOVERNMENT",
     "HISTORY",
     "CRK",
 ]

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Auth from "./pages/auth/Auth";
 import DashboardLayout from "./pages/admin/dashboardLayout";
 import Overview from "./pages/admin/Overview";
@@ -36,8 +36,41 @@ function App() {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
+    sessionStorage.removeItem("timeout");
     dispatch(logout());
-  };  
+  };
+
+  const setSession = () => {
+    const timeout = 3 * 60 * 1000; // 30 minutes in milliseconds
+    const expirationTime = Date.now() + timeout; // Current time + 30 minutes
+    sessionStorage.setItem("timeout", expirationTime.toString());
+  };
+  
+  const checkSessionTimeout = () => {
+    const timeout = sessionStorage.getItem("timeout");
+
+    if (timeout) {
+      const expirationDate = new Date(parseInt(timeout, 10));
+      const currentDate = new Date();
+
+      if (expirationDate.getTime() <= currentDate.getTime()) {
+        handleLogout();
+        console.log("Session has expired.");
+      } else {
+        console.log(`Session expires at: ${expirationDate.toLocaleTimeString()}`);
+      }
+    } else {
+      console.log("No session timeout found.");
+    }
+  };
+
+  useEffect(() => {
+    setSession();
+    const intervalId = setInterval(checkSessionTimeout, 1000 * 60); // Check every minute
+    onClose();
+
+    return () => clearInterval(intervalId); // Clear the interval when the component unmounts
+  }, [dispatch]);
 
   const onClose = () => {
     window.addEventListener("beforeunload", (e) => {
@@ -45,17 +78,6 @@ function App() {
       handleLogout();
     });
   };
-
-  const setSession = () => {
-    const timeout = 30 * 60 * 1000; // 30 minutes in milliseconds
-    const expirationTime = Date.now() + timeout; // Current time + 30 minutes
-    sessionStorage.setItem("timeout", expirationTime.toString());
-  };
-
-  useEffect(() => {
-    setSession();
-    onClose();
-  }, [dispatch]);
 
   return (
     <div className="App">
