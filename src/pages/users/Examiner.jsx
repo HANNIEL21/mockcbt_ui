@@ -70,6 +70,7 @@ const Examiner = () => {
 
     if (existingAnswerIndex !== -1) {
       const updatedAnswers = [...answers];
+      const previousAnswer = updatedAnswers[existingAnswerIndex].value;
       updatedAnswers[existingAnswerIndex].value = v;
       setAnswers(updatedAnswers);
 
@@ -77,15 +78,17 @@ const Examiner = () => {
         (question) => question.id === qid
       ).answer;
       if (
-        updatedAnswers[existingAnswerIndex].value !== correctAnswer &&
-        v === correctAnswer
+        previousAnswer !== correctAnswer && v === correctAnswer
       ) {
         setScore((prevScore) => prevScore + 1);
       } else if (
-        updatedAnswers[existingAnswerIndex].value === correctAnswer &&
-        v !== correctAnswer
+        previousAnswer === correctAnswer && v !== correctAnswer
       ) {
         setScore((prevScore) => prevScore - 1);
+      } else if (
+        previousAnswer === correctAnswer && v === correctAnswer && previousAnswer !== v
+      ) {
+        // do nothing, score remains the same
       }
     } else {
       setAnswers([...answers, { qid, course: c, value: v }]);
@@ -304,7 +307,7 @@ const Examiner = () => {
               </div>
             </form>
           </div>
-          <div className="w-full flex justify-between items-center">
+          <div className="hidden w-full md:flex justify-between items-center">
             <button
               onClick={goToPrevQuestion}
               disabled={currentQuestionIndex === 0}
@@ -318,6 +321,31 @@ const Examiner = () => {
             >
               Next
             </button>
+          </div>
+          <div className="md:hidden w-full flex justify-between items-center">
+            <button
+              onClick={goToPrevQuestion}
+              disabled={currentQuestionIndex === 0}
+              className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase md:px-20 p-4"
+            >
+              Prev
+            </button>
+
+            {currentQuestionIndex + 1 === questions.length ? (
+              <button
+                className="border-2 border-green-900 hover:bg-green-900 font-bold text-green-900 text-lg rounded-lg hover:text-white uppercase px-10 py-4"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            ) : (
+              <button
+                onClick={goToNextQuestion}
+                className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase md:px-20 p-4"
+              >
+                Next
+              </button>
+            )}
           </div>
         </div>
 

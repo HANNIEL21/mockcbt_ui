@@ -15,7 +15,6 @@ const Instruction = () => {
   );
   const { userDetails } = useSelector((state) => state.user);
 
-  console.log(questions, isError);
 
   dispatch(clearState());
   

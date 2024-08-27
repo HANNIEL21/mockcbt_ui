@@ -150,7 +150,6 @@ const Subject = () => {
                     // Flatten the array
                     const shuffledQuestions = shuffledGroups.flat();
 
-                    console.log(shuffledQuestions);
                     dispatch(setQuestions(shuffledQuestions));
                 } else {
                     Alert(res.data.status, res.data.message);
@@ -173,7 +172,7 @@ const Subject = () => {
                     logout <IoLogOutOutline className='text-2xl' />
                 </button>
             </div>
-            <div className='md:w-[50%] md:h-[350px] bg-green-500 p-4 gap-10 flex justify-between items-center flex-col text-center'>
+            <div className='md:w-[50%] md:h-[350px] p-4 gap-10 flex justify-between items-center flex-col text-center'>
                 <h1 className='text-6xl font-extrabold text-blue-900 uppercase'>{appName}</h1>
                 <p>Select Subject Combination to Proceed</p>
 

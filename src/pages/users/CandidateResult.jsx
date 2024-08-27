@@ -111,8 +111,8 @@ const CandidateResult = () => {
           logout <IoLogOutOutline className="text-2xl" />
         </button>
       </div>
-      <section className="flex items-center gap-8 p-8">
-        <div className="h-44 w-44 flex items-center justify-center">
+      <section className="flex items-center gap-8 py-8">
+        <div className=" md:h-44 md:w-44 flex items-center justify-center">
           {userDetails?.avatar ? (
             <img
               src={`${baseApiUrl}/images/${userDetails?.avatar}`}
@@ -120,13 +120,13 @@ const CandidateResult = () => {
               className="w-full h-full rounded-lg shadow-md"
             />
           ) : (
-            <div className="bg-white shadow-md rounded-xl h-52 w-52 flex items-center justify-center">
+            <div className="bg-white shadow-md rounded-xl md:h-52 md:w-52 p-4 flex items-center justify-center">
               <IoPerson className="text-blue-800 text-6xl" />
             </div>
           )}
         </div>
         <div>
-          <h1 className="text-4xl text-blue-900 font-extrabold uppercase">
+          <h1 className="text-3xl md:text-4xl text-blue-900 font-extrabold uppercase">
             {userDetails?.firstname} {userDetails?.lastname}
           </h1>
           <p className="font-extrabold capitalize">

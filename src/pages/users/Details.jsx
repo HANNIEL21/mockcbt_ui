@@ -10,6 +10,7 @@ import { IoLogOut } from "react-icons/io5";
 import ModalOverlay from "../../components/ModalOverlay";
 import Feedback from "./Feedback";
 import { MdFeedback } from "react-icons/md"
+import LiveChat from "../../components/LiveChat";
 
 const Details = () => {
   const dispatch = useDispatch();
@@ -144,6 +145,7 @@ const Details = () => {
 
   return (
     <main className="h-screen w-screen bg-gray-200 flex flex-col">
+      <LiveChat />
       <>
         <button
           onClick={handleFeedbackModal}
