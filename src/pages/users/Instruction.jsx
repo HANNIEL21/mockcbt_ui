@@ -44,37 +44,37 @@ const Instruction = () => {
         <IoArrowBackOutline className="text-2xl" />
       </button>
       <section className="flex flex-col h-[70%] w-[80%] justify-around items-start">
-        <div>
+        <div className="mb-2">
           <p className="text-base font-extrabold text-blue-900 capitalize">
             {userDetails?.course}
           </p>
-          <h1 className="text-5xl font-bold text-blue-900 capitalize">
+          <h1 className="text-4xl md:text-5xl font-extrabold md:font-bold text-blue-900 uppercase">
             {examDetails?.exam}
           </h1>
         </div>
         <div className="w-full flex flex-col justify-between items-start">
           <div className="text-gray-600">
-            <h3 className=" text-2xl font-bold mb-3">EXAM INSTRUCTIONS:</h3>
+            <h3 className="md:text-2xl font-bold mb-3 capitalize">exam instructions:</h3>
 
-            <ul className="list-item">
-              <li className="uppercase font-semibold text-red-600">
+            <ul className="list-item list-disc">
+              <li className="capitalize md:font-semibold text-base text-red-600">
                 THIS IS A PREPARATORY EXAM
               </li>
-              <li className="uppercase font-semibold">
-                This exam will last for {examDetails?.duration} minutes only.
+              <li className="capitalize md:font-semibold text-base">
+                this exam will last for {examDetails?.duration} minutes only.
               </li>
-              <li className="uppercase font-semibold">
-                Read each question carefully and select the appropriate Answer.
+              <li className="capitalize md:font-semibold text-base">
+                read each question carefully and select the appropriate Answer.
               </li>
-              <li className="uppercase font-semibold">
-                THE EXAM ENDS WHEN THE SUBMIT BUTTON IS CLICKED.
+              <li className="capitalize md:font-semibold text-base">
+                the exam ends when the submit button is clicked.
               </li>
-              <li className="uppercase font-semibold">
-                YOUR EXAM WILL AUTOMATICALLY BE SUBMITTED ONCE YOUR TIME
-                EXPIRES.
+              <li className="capitalize md:font-semibold text-base">
+                your exam will automatically be submitted once your time
+                expires.
               </li>
-              <li className="uppercase font-semibold">
-                ENSURE YOU LOGOUT AFTER SUBMISSION{" "}
+              <li className="capitalize md:font-semibold">
+                ensure you logout after submission
               </li>
             </ul>
           </div>
@@ -85,7 +85,7 @@ const Instruction = () => {
             disabled={isError ? true : false}
             className={`border-2 border-blue-900 ${
               isError ? "" : "hover:bg-blue-900 hover:text-white"
-            } font-bold text-blue-900 text-lg rounded-lg  uppercase px-24 py-4`}
+            } font-bold text-blue-900 text-lg rounded-lg  uppercase block w-full mt-5 py-4`}
           >
             start exam
           </button>

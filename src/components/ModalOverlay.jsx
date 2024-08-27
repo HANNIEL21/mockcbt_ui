@@ -1,7 +1,7 @@
 export default function ModalOverlay({ children,className, closeModal = null }) {
   return (
     <div
-      className={`fixed z-10 inset-0 overflow-y-auto ${className}`}
+      className={`fixed z-30 inset-0 overflow-y-auto ${className}`}
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"

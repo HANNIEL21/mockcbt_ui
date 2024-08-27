@@ -9,6 +9,11 @@ import Alert from "../../components/Alert";
 import { baseApiUrl } from "../../utils/constants";
 import { setExamAnswers } from "../../redux/Features/Exam";
 
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+import { BsFillGridFill } from "react-icons/bs";
+import Grid from "./Grid";
+import ModalOverlay from "../../components/ModalOverlay";
+
 const Examiner = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,6 +25,7 @@ const Examiner = () => {
   const [score, setScore] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [isGridOpen, setIsGridOpen] = useState(false);
 
   console.log(questions);
 
@@ -200,6 +206,10 @@ const Examiner = () => {
 
   console.log(answers);
 
+  const handleOpenGrid = () => {
+    setIsGridOpen(!isGridOpen);
+  }
+
   useEffect(() => {
     function preventContextEvent(e) {
       e.preventDefault();
@@ -235,34 +245,35 @@ const Examiner = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen flex">
-      <section className="w-[45%] h-full bg-slate-50 shadow-md flex flex-col gap-10 justify-center items-center">
+    <div className="w-full h-screen flex py-4">
+      <section className="w-[45%] h-full bg-slate-50 shadow-md hidden md:flex flex-col gap-10 justify-center items-center">
         <Timmer duration={duration} onTimeout={handleTimeout} />
         <UserDetail />
       </section>
 
-      <section className="w-full h-full p-10 px-20 flex flex-col gap-8 relative">
+      <section className="w-full h-full p-10 md:px-20 flex flex-col gap-8 relative">
         <p className="absolute font-bold text-gray-500 text-2xl -rotate-45 top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
           THIS IS ONLY A PREPARATORY TEST
         </p>
+
         <div
           key={currentQuestion.id}
-          className="flex flex-col justify-between gap-16 bg-white/90  relative z-30"
+          className="flex flex-col justify-between md:gap-16 gap-4 mt-4 md:mt-0 bg-white/90  relative z-30"
         >
           <div>
             <p className="font-extrabold text-slate-600">
               {currentQuestion.course}
             </p>
-            <h2 className="text-5xl font-bold text-blue-900">
+            <h2 className="text-4xl md:text-5xl font-bold text-blue-900">
               Question {currentQuestionIndex + 1}
             </h2>
           </div>
           <div className="h-full w-full">
-            <form className="flex flex-col gap-10">
-            <h3 dangerouslySetInnerHTML={{ __html: currentQuestion.question.toString().replace(/\n/g, "<br>") }}></h3>
+            <form className="flex flex-col md:gap-10 gap-2">
+              <h3 dangerouslySetInnerHTML={{ __html: currentQuestion.question.toString().replace(/\n/g, "<br>") }}></h3>
               <div>
                 {options.map((option, index) => (
-                  <div key={index} className="flex items-center mb-4">
+                  <div key={index} className="flex items-center md:mb-4">
                     <input
                       type="radio"
                       id={`option-${index}`}
@@ -297,31 +308,32 @@ const Examiner = () => {
             <button
               onClick={goToPrevQuestion}
               disabled={currentQuestionIndex === 0}
-              className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase px-20 py-4"
+              className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase md:px-20 p-4"
             >
               Prev
             </button>
             <button
               onClick={goToNextQuestion}
-              className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase px-20 py-4"
+              className="border-2 border-blue-900 hover:bg-blue-900 font-bold text-blue-900 text-lg rounded-lg hover:text-white uppercase md:px-20 p-4"
             >
               Next
             </button>
           </div>
         </div>
+
+
       </section>
 
-      <section className="w-[45%] h-full bg-slate-50 shadow-md">
+      <section className="w-[45%] h-full hidden md:flex bg-slate-50 shadow-md">
         <div className="h-full flex gap-5 flex-col justify-center items-center p-5">
           <div className="w-full grid grid-cols-2 gap-2 place-content-center justify-items-center">
             {groupedQuestionsArray.map((item, index) => (
               <div
                 key={index} // Use index as the key
-                className={`w-full cursor-pointer uppercase font-bold rounded-md text-sm py-2 text-center border-2 border-slate-300 ${
-                  item.course === currentQuestion.course
-                    ? "bg-blue-900 text-white"
-                    : "bg-white text-blue-900"
-                }`}
+                className={`w-full cursor-pointer uppercase font-bold rounded-md text-sm py-2 text-center border-2 border-slate-300 ${item.course === currentQuestion.course
+                  ? "bg-blue-900 text-white"
+                  : "bg-white text-blue-900"
+                  }`}
                 onClick={() => {
                   console.log("Clicked course:", item.course);
                   const courseQuestions = questions.filter(
@@ -348,11 +360,10 @@ const Examiner = () => {
             {questions.map((question, index) => (
               <div
                 key={index}
-                className={`border-2 border-blue-900 text-blue-900 font-bold text-lg flex justify-center items-center w-8 h-8 rounded-md cursor-pointer ${
-                  answers.find((answer) => answer.qid === question.id)
-                    ? "border-none bg-blue-900 text-white"
-                    : "bg-gray-300"
-                } `}
+                className={`border-2 border-blue-900 text-blue-900 font-bold text-lg flex justify-center items-center w-8 h-8 rounded-md cursor-pointer ${answers.find((answer) => answer.qid === question.id)
+                  ? "border-none bg-blue-900 text-white"
+                  : "bg-gray-300"
+                  } `}
                 onClick={() => handleNumberClick(index)}
               >
                 <h2 className="p-5 font-extrabold">{index + 1}</h2>
@@ -374,6 +385,87 @@ const Examiner = () => {
           )}
         </div>
       </section>
+
+
+      <>
+        <div className="absolute top-4 right-4 z-30 flex md:hidden gap-4 items-center border-2 border-blue-900 p-2 rounded-md">
+          <Timmer duration={duration} onTimeout={handleTimeout} />
+          <button
+            onClick={handleOpenGrid}
+            className=" flex gap-2 hover:bg-blue-300 text-white font-bold text-sm "
+          >
+            <BsFillGridFill className="text-xl text-blue-900" />
+          </button>
+
+          {isGridOpen && (
+            <ModalOverlay>
+              <div >
+                <div className=" bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                  <div className="h-full flex gap-5 flex-col justify-evenly items-center p-5">
+                    <div className="w-full h-full grid grid-cols-2 gap-2 place-content-center justify-items-center">
+                      {groupedQuestionsArray.map((item, index) => (
+                        <div
+                          key={index} // Use index as the key
+                          className={`w-full cursor-pointer uppercase font-bold rounded-md text-sm py-2 text-center border-2 border-slate-300 ${item.course === currentQuestion.course
+                            ? "bg-blue-900 text-white"
+                            : "bg-white text-blue-900"
+                            }`}
+                          onClick={() => {
+                            console.log("Clicked course:", item.course);
+                            const courseQuestions = questions.filter(
+                              (question) => question.course === item.course
+                            );
+                            console.log("Course questions:", courseQuestions);
+                            if (courseQuestions.length > 0) {
+                              const firstQuestionIndex = questions.indexOf(
+                                courseQuestions[0]
+                              );
+                              setCurrentQuestionIndex(firstQuestionIndex);
+                              setSelectedCourse(item.course);
+                              console.log(selectedCourse);
+                            } else {
+                              console.log("No questions found for course:", item.course);
+                            }
+                          }}
+                        >
+                          {item.course}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="h-[300px] overflow-y-auto overflow-scroll overflow-x-hidden grid grid-cols-5 gap-2 p-3 place-content-start">
+                      {questions.map((question, index) => (
+                        <div
+                          key={index}
+                          className={`border-2 border-blue-900 text-blue-900 font-bold text-lg flex justify-center items-center w-8 h-8 rounded-md cursor-pointer ${answers.find((answer) => answer.qid === question.id)
+                            ? "border-none bg-blue-900 text-white"
+                            : "bg-gray-300"
+                            } `}
+                          onClick={() => handleNumberClick(index)}
+                        >
+                          <h2 className="p-5 font-extrabold">{index + 1}</h2>
+                        </div>
+                      ))}
+                    </div>
+                    <h2 className="font-bold text-2xl">
+                      {answers.length} of {questions.length}
+                    </h2>
+                  </div>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+
+                  <button
+                    type="button"
+                    onClick={handleOpenGrid}
+                    className="mt-3 w-full inline-flex justify-center rounded-md border shadow-sm px-4 py-2 bg-white text-base font-medium focus:outline-none sm:mt-0 sm:w-auto sm:text-sm"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </ModalOverlay>
+          )}
+        </div>
+      </>
     </div>
   );
 };

@@ -41,7 +41,7 @@ function App() {
   };
 
   const setSession = () => {
-    const timeout = 3 * 60 * 1000; // 30 minutes in milliseconds
+    const timeout = 5 * 60 * 1000; // 30 minutes in milliseconds
     const expirationTime = Date.now() + timeout; // Current time + 30 minutes
     sessionStorage.setItem("timeout", expirationTime.toString());
   };
@@ -81,7 +81,7 @@ function App() {
 
   return (
     <div className="App">
-      <LiveChat />
+      {/* <LiveChat /> */}
       <Router>
         <Routes>
           <Route path="/" element={<Auth />} />

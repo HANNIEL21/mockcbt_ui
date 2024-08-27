@@ -9,7 +9,7 @@ import Alert from "../../components/Alert";
 import { IoLogOut } from "react-icons/io5";
 import ModalOverlay from "../../components/ModalOverlay";
 import Feedback from "./Feedback";
-import {MdFeedback } from "react-icons/md"
+import { MdFeedback } from "react-icons/md"
 
 const Details = () => {
   const dispatch = useDispatch();
@@ -145,21 +145,22 @@ const Details = () => {
   return (
     <main className="h-screen w-screen bg-gray-200 flex flex-col">
       <>
-            <button
-              onClick={handleFeedbackModal}
-              className="absolute bottom-40 right-12 border-2 border-green-700 hover:bg-green-300 text-white font-bold text-sm rounded-md px-1 py-1 focus:outline-none"
-            >
-              <MdFeedback  className="text-xl text-green-700" />
-            </button>
+        <button
+          onClick={handleFeedbackModal}
+          className="absolute md:bottom-40 bottom-24 md:right-12 right-6 border-2 border-green-700 flex gap-2 hover:bg-green-300 text-white font-bold text-sm rounded-md px-3 py-1 focus:outline-none"
+        >
+          <MdFeedback className="text-xl text-green-700" />
+          <p className="text-green-700 font-bold">Feedback</p>
+        </button>
 
-            {isOpenFeedback && (
-              <ModalOverlay>
-                <Feedback
-                  closeModal={handleFeedbackModal}
-                />
-              </ModalOverlay>
-            )}
-          </>
+        {isOpenFeedback && (
+          <ModalOverlay>
+            <Feedback
+              closeModal={handleFeedbackModal}
+            />
+          </ModalOverlay>
+        )}
+      </>
       <section className=" w-full h-24 flex justify-end md:justify-between items-center md:px-10">
         <div className="hidden md:flex flex-col items-start">
           <p>Hello</p>
@@ -218,8 +219,8 @@ const Details = () => {
           </button>
         </div>
       </section>
-      <section className="h-full grid grid-cols-1">
-        <div className="md:hidden h-full w-full flex flex-col justify-end">
+      <section className="h-full flex flex-col">
+        <div className="md:hidden h-1/4 md:h-full w-full flex flex-col justify-center md:justify-end">
           <div className="md:hidden flex flex-col px-5 items-start">
             <p>Hello</p>
             {userDetails && (

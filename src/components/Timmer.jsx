@@ -30,7 +30,7 @@ const Timer = ({ duration, onTimeout }) => {
 
   return (
     <div>
-      <h1 className={`text-4xl font-bold ${isFourthRemaining ? 'blinking' : ''}`} style={{ color: isFourthRemaining ? 'red' : 'inherit' }}>
+      <h1 className={`text-xl md:text-4xl font-bold ${isFourthRemaining ? 'blinking' : ''}`} style={{ color: isFourthRemaining ? 'red' : 'inherit' }}>
         {formatTime(seconds)}
       </h1>
     </div>
